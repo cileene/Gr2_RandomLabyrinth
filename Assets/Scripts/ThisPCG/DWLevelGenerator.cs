@@ -28,12 +28,12 @@ namespace ThisPCG
         [SerializeField] private int steps = 500;  // Total walker moves
         [SerializeField] private int walkerCount = 3; // Number of simultaneous walkers
         [SerializeField] private float changeDirChance = 0.2f; // Chance a walker turns at each step
-        [SerializeField] private float specialTileChance = 0.1f; // Chance a carved floor becomes special
+        [SerializeField] private float fireTileChance = 0.1f; // Chance a carved floor becomes special
 
         // ---------- Prefab references ----------
         [SerializeField] private GameObject floorPrefab;     // Prefab for normal floor tiles
         [SerializeField] private GameObject wallPrefab;      // Prefab for wall tiles
-        [SerializeField] private GameObject specialTilePrefab; // Prefab for special floor tiles
+        [SerializeField] private GameObject fireTilePrefab; // Prefab for special floor tiles
         [SerializeField] private GameObject playerPrefab;    // Player character prefab
 
         // --- Runtime data containers ---
@@ -102,7 +102,7 @@ namespace ThisPCG
                 for (int y = 0; y < height; y++)
                 {
                     // Promote some floor tiles to special
-                    if (_map[x, y] == 1 && Random.value < specialTileChance)
+                    if (_map[x, y] == 1 && Random.value < fireTileChance)
                     {
                         _map[x, y] = 2;
                     }
@@ -149,7 +149,7 @@ namespace ThisPCG
                             break;
                         case 2:
                             // Spawn special floor tile (as a test)
-                            Instantiate(specialTilePrefab, new Vector3(x, 0, y), Quaternion.identity, transform);
+                            Instantiate(fireTilePrefab, new Vector3(x, 0, y), Quaternion.identity, transform);
                             break;
                         default:
                             // Fallback if map[x, y] is something unexpected
