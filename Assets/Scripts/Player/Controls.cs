@@ -1,46 +1,49 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(Rigidbody))]
-public class Controls : MonoBehaviour
+namespace Player
 {
-    public InputActionAsset inputActions;
-    public float speed = 10f;
-
-    private Rigidbody rb;
-    private InputAction moveAction;
-    private Vector3 movementInput;
-
-    void Awake()
+    [RequireComponent(typeof(Rigidbody))]
+    public class Controls : MonoBehaviour
     {
-        rb = GetComponent<Rigidbody>();
+        public InputActionAsset inputActions;
+        public float speed = 10f;
 
-        // Get reference to the 'Move' action
-        var map = inputActions.FindActionMap("Player");
-        moveAction = map.FindAction("Move");
+        private Rigidbody rb;
+        private InputAction moveAction;
+        private Vector3 movementInput;
 
-        moveAction.performed += OnMove;
-        moveAction.canceled += ctx => movementInput = Vector3.zero;
-    }
+        void Awake()
+        {
+            rb = GetComponent<Rigidbody>();
 
-    private void OnEnable()
-    {
-        moveAction.Enable();
-    }
+            // Get reference to the 'Move' action
+            var map = inputActions.FindActionMap("Player");
+            moveAction = map.FindAction("Move");
 
-    private void OnDisable()
-    {
-        moveAction.Disable();
-    }
+            moveAction.performed += OnMove;
+            moveAction.canceled += ctx => movementInput = Vector3.zero;
+        }
 
-    private void OnMove(InputAction.CallbackContext context)
-    {
-        movementInput = context.ReadValue<Vector3>();
-    }
+        private void OnEnable()
+        {
+            moveAction.Enable();
+        }
 
-    void FixedUpdate()
-    {
-        Vector3 force = new Vector3(movementInput.x, 0, movementInput.y); // z = forward
-        rb.AddForce(force * speed);
+        private void OnDisable()
+        {
+            moveAction.Disable();
+        }
+
+        private void OnMove(InputAction.CallbackContext context)
+        {
+            movementInput = context.ReadValue<Vector3>();
+        }
+
+        void FixedUpdate()
+        {
+            Vector3 force = new Vector3(movementInput.x, 0, movementInput.y); // z = forward
+            rb.AddForce(force * speed);
+        }
     }
 }
