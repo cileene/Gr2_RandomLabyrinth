@@ -76,7 +76,7 @@ namespace ThisPCG
         /// </summary>
         private void GenerateLevel()
         {
-            // --- PHASE 1: Move walkers and carve floors ---
+            // --- PHASE 1: Move walkers and carve floors ---
             for (int i = 0; i < steps; i++)
             {
                 for (int w = 0; w < walkerCount; w++)
@@ -95,7 +95,7 @@ namespace ThisPCG
                 }
             }
 
-            // --- PHASE 2: Post‑process tiles (special tiles + player spawn) ---
+            // --- PHASE 2: Post‑process tiles (special tiles + player spawn) ---
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)
@@ -130,7 +130,7 @@ namespace ThisPCG
                     {
                         case 0:
                             // Spawn wall
-                            Instantiate(wallPrefab, new Vector3(x, 1, y), Quaternion.identity, transform);
+                            Instantiate(wallPrefab, new Vector3(x, 0.5f, y), Quaternion.identity, transform);
                             break;
                         case 1:
                             // Spawn floor
