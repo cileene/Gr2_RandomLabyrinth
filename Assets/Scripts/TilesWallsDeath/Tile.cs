@@ -1,9 +1,6 @@
 using UnityEngine;
 
-public class Tile : MonoBehaviour
+public abstract class Tile : MonoBehaviour
 {
-    public virtual float GetFriction()
-    {
-        return 1f;
-    }
+    public abstract float GetFriction();
 }
