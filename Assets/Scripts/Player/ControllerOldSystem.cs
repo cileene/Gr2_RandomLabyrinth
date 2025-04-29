@@ -4,7 +4,7 @@ namespace Player
 {
     public class ControllerOldSystem : MonoBehaviour
     {
-        private Rigidbody rb;
+        private Rigidbody _rb;
     
         [SerializeField] private float forceMultiplier = 10f;
 
@@ -12,7 +12,7 @@ namespace Player
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
-            rb = GetComponent<Rigidbody>(); // Set the Rigidbody to kinematic
+            _rb = GetComponent<Rigidbody>(); // Set the Rigidbody to kinematic
         }
 
         // Update is called once per frame
@@ -24,7 +24,7 @@ namespace Player
                 tilt = Quaternion.Euler(90, 0, 0) * tilt;
             }
         
-            rb.AddForce(tilt * forceMultiplier);
+            _rb.AddForce(tilt * forceMultiplier);
         }
     }
 }
