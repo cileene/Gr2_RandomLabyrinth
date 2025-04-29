@@ -1,13 +1,13 @@
 /*------------------------------------------------------------------------------
  DWLevelGenerator.cs
  Generates a grid‑based level at runtime using a multi‑agent Drunkard’s Walk
- algorithm and instantiates prefabs to visualise the result.
+ algorithm and instantiates prefabs to visualize the result.
 
  Steps:
    1. Initialise N walkers at random positions.
    2. Move each walker for a defined number of steps, carving floor tiles.
    3. Optionally convert a subset of floor tiles to "special" tiles.
-   4. Spawn the player on the first floor tile that passes a random check.
+   4. Spawn the player on the first-floor tile that passes a random check.
    5. Iterate over the grid and instantiate the appropriate prefab per cell.
 
  Attach this script to an empty GameObject in your scene.
@@ -42,11 +42,11 @@ namespace ThisPCG
         private Vector2Int[] _walkerDirections;        // Direction each walker is moving
 
         /// <summary>
-        /// Unity entry point. Initialises data, generates the level, and renders it.
+        /// Unity entry point. Initializes data, generates the level, and renders it.
         /// </summary>
         private void Start()
         {
-            // Initialise the map array
+            // Initialize the map array
             _map = new int[width, height];
             // Clear the map (set all cells to 0 = wall)
             for (int x = 0; x < width; x++)
@@ -96,7 +96,7 @@ namespace ThisPCG
                 }
             }
 
-            // --- PHASE 2: Post‑process tiles (special tiles + player spawn) ---
+            // --- PHASE 2: Post‑process tiles (special tiles) ---
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)
@@ -148,7 +148,7 @@ namespace ThisPCG
                             Instantiate(floorPrefab, new Vector3(x, 0, y), Quaternion.identity, transform);
                             break;
                         case 2:
-                            // Spawn special floor tile (as a test)
+                            // Spawn fire floor tile
                             Instantiate(fireTilePrefab, new Vector3(x, 0, y), Quaternion.identity, transform);
                             break;
                         default:
