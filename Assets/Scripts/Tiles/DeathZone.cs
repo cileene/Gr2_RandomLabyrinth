@@ -1,12 +1,15 @@
 using UnityEngine;
 
-public class DeathZone : MonoBehaviour
+namespace Tiles
 {
-    private void OnTriggerEnter(Collider other)
+    public class DeathZone : MonoBehaviour
     {
-        if(other.CompareTag("Player"))
+        private void OnTriggerEnter(Collider other)
         {
-            //kald game manager for restart 
+            if(other.CompareTag("Player"))
+            {
+                //kald game manager for restart 
+            }
         }
     }
 }
