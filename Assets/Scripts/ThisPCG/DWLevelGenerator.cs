@@ -11,8 +11,6 @@
    5. Iterate over the grid and instantiate the appropriate prefab per cell.
 
  Attach this script to an empty GameObject in your scene.
-
- Author: Nick Lee Jerlung
  ------------------------------------------------------------------------------*/
 namespace ThisPCG
 {
