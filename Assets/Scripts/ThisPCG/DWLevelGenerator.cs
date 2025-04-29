@@ -15,6 +15,7 @@
 namespace ThisPCG
 {
     using UnityEngine;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Runtime procedural level generator based on the Drunkard's Walk algorithm.
@@ -105,14 +106,24 @@ namespace ThisPCG
                     {
                         _map[x, y] = 2;
                     }
-                    
-                    // Spawn the player on a random floor tile (temporary)
-                    if (_map[x, y] == 1 && Random.value < 0.01f) // this should be moved
-                    {
-                        Instantiate(playerPrefab, new Vector3(x, 2, y), Quaternion.identity);
-                        return;
-                    }
                 }
+            }
+
+            // --- PHASE 3: Spawn the player on a random floor tile ---
+            var floorTiles = new List<Vector2Int>();
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    if (_map[x, y] == 1)
+                        floorTiles.Add(new Vector2Int(x, y));
+                }
+            }
+
+            if (floorTiles.Count > 0)
+            {
+                var spawn = floorTiles[Random.Range(0, floorTiles.Count)];
+                Instantiate(playerPrefab, new Vector3(spawn.x, 2, spawn.y), Quaternion.identity);
             }
         }
 
