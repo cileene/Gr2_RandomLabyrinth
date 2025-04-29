@@ -157,7 +157,7 @@ MonoBehaviour:
   floorPrefab: {fileID: 5865752808958729063, guid: faeb1a58d56784a4a9d723c680af3d7b, type: 3}
   wallPrefab: {fileID: 5865752808958729063, guid: 7106480e1d8dd4e7d91411442ca36571, type: 3}
   specialTilePrefab: {fileID: 5865752808958729063, guid: d366a67562c304b75977032eef4e1ecf, type: 3}
-  playerPrefab: {fileID: 1572101069444671729, guid: 2038fe75a0e4e4ec6bb9957f4baeaf17, type: 3}
+  playerPrefab: {fileID: 2709726816265125836, guid: c5610a4440d5d4f798457015e0cf6851, type: 3}
 --- !u!4 &770652267
 Transform:
   m_ObjectHideFlags: 0
