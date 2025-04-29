@@ -1,13 +1,15 @@
-using UnityEditor.Build.Content;
 using UnityEngine;
 
-public class FireWall : MonoBehaviour
+namespace Tiles
 {
-    private void OnCollisionEnter(Collision collision)
+    public class FireWall : MonoBehaviour
     {
-        if (collision.gameObject.CompareTag("Player"))
+        private void OnCollisionEnter(Collision collision)
         {
-            //kald game manager start forfra 
+            if (collision.gameObject.CompareTag("Player"))
+            {
+                //kald game manager start forfra 
+            }
         }
     }
 }

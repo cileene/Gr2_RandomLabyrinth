@@ -1,10 +1,17 @@
+using UnityEngine;
+
 namespace Tiles
 {
     public class GrassTile : Tile
     {
-        public override float GetFriction()
+        protected override PhysicsMaterial CreateMaterial()
         {
-            return 1.5f;
+            var mat = new PhysicsMaterial("Grass");
+            mat.dynamicFriction = 1f;
+            mat.staticFriction = 1f;
+            mat.frictionCombine = PhysicsMaterialCombine.Minimum;
+            mat.bounceCombine = PhysicsMaterialCombine.Minimum;
+            return mat;
         }
     }
 }
