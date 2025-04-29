@@ -19,12 +19,18 @@ namespace Player
         void FixedUpdate()
         {
             Vector3 tilt = Input.acceleration;
+
             if (isFlat)
             {
-                tilt = Quaternion.Euler(90, 0, 0) * tilt;
+                // Map tilt.x to left/right, tilt.y to forward/backward
+                tilt = new Vector3(tilt.x, 0f, tilt.y);
             }
-        
+
+            tilt = Vector3.ClampMagnitude(tilt, 1f); // Prevent sudden spikes
+
             _rb.AddForce(tilt * forceMultiplier);
+
+            _rb.linearVelocity = Vector3.ClampMagnitude(_rb.linearVelocity, 5f); // Cap speed
         }
     }
 }
