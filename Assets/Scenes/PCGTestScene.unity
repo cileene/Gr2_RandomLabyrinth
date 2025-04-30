@@ -2298,6 +2298,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1016988015}
   m_CullTransparentMesh: 0
+--- !u!1001 &1041272468
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2444672715105611071, guid: faeb1a58d56784a4a9d723c680af3d7b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 6.1011343
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444672715105611071, guid: faeb1a58d56784a4a9d723c680af3d7b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -4.98
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444672715105611071, guid: faeb1a58d56784a4a9d723c680af3d7b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 11.720702
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444672715105611071, guid: faeb1a58d56784a4a9d723c680af3d7b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444672715105611071, guid: faeb1a58d56784a4a9d723c680af3d7b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444672715105611071, guid: faeb1a58d56784a4a9d723c680af3d7b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444672715105611071, guid: faeb1a58d56784a4a9d723c680af3d7b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444672715105611071, guid: faeb1a58d56784a4a9d723c680af3d7b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444672715105611071, guid: faeb1a58d56784a4a9d723c680af3d7b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444672715105611071, guid: faeb1a58d56784a4a9d723c680af3d7b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5865752808958729063, guid: faeb1a58d56784a4a9d723c680af3d7b, type: 3}
+      propertyPath: m_Name
+      value: WaterTile
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: faeb1a58d56784a4a9d723c680af3d7b, type: 3}
 --- !u!1 &1050894782
 GameObject:
   m_ObjectHideFlags: 0
@@ -5450,3 +5507,4 @@ SceneRoots:
   - {fileID: 2003541996}
   - {fileID: 381453030}
   - {fileID: 303222132}
+  - {fileID: 1041272468}
