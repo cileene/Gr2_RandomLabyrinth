@@ -53,9 +53,11 @@ public class GameManager : MonoBehaviour
         
     }
 
-    void LoseGame()
+    public void LoseGame()
     {
-         if (currentState != GameState.Playing) return; // Makes sure it only happens when we’re in Playing state (prevents double-triggers)
+        Debug.Log("LoseGame called");
+
+         //if (currentState != GameState.Playing) return; // Makes sure it only happens when we’re in Playing state (prevents double-triggers)
 
         currentState = GameState.Lost;        // Changes game state to Lost
         loseScreen.SetActive(true);           // Shows the lose panel
