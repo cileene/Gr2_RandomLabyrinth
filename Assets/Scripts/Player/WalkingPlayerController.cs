@@ -26,7 +26,8 @@ namespace Player
 
         public void OnMove(InputValue value)
         {
-            moveDirection = value.Get<Vector2>();
+            Vector2 input = value.Get<Vector2>();
+            moveDirection = new Vector3(input.x, 0f, input.y);
         }
 
     }
