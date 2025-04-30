@@ -452,6 +452,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1775da2457e164683a1c51925996b69e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpeed: 3
   forceMultiplier: 10
   isFlat: 1
 --- !u!54 &8135426757167010138
@@ -518,7 +519,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7185154791976092526}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: da7161208fe410a49bab51c0a2ec45a0, type: 3}
   m_Name: 
