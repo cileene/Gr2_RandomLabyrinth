@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+//TODO: Add time tracking
+//TODO: Add Singleton pattern
+//TODO: Make serilaizable
 public class GameManager : MonoBehaviour
 {
     public enum GameState { Start, Playing, Won, Lost }
@@ -50,5 +53,3 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("LoseScene");
     }
 }
-
-
