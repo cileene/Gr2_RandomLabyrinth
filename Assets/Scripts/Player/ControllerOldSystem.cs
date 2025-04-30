@@ -60,7 +60,7 @@ namespace Player
             }
             else
             {
-           
+                _rb.linearVelocity = Vector3.zero; // Reset force when touch is detected
                 _rb.MovePosition(_rb.position + currentDirection * (moveSpeed * Time.fixedDeltaTime));
             }
         }
