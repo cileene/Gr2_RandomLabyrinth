@@ -270,12 +270,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1910de6a85b54b9185ddc2c9d5b96c52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 50
-  height: 50
-  steps: 500
-  walkerCount: 3
-  changeDirChance: 0.2
-  fireTileChance: 0.1
+  width: 30
+  height: 30
+  steps: 63
+  walkerCount: 10
+  changeDirChance: 0.08
+  fireTileChance: 0
   floorPrefab: {fileID: 5865752808958729063, guid: faeb1a58d56784a4a9d723c680af3d7b, type: 3}
   wallPrefab: {fileID: 5865752808958729063, guid: 7106480e1d8dd4e7d91411442ca36571, type: 3}
   fireTilePrefab: {fileID: 5865752808958729063, guid: d366a67562c304b75977032eef4e1ecf, type: 3}

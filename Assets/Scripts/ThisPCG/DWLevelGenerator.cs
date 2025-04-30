@@ -139,8 +139,8 @@ namespace ThisPCG
                     _walkerPositions[w] += _walkerDirections[w];
                     
                     // Keep walker inside grid bounds
-                    _walkerPositions[w].x = Mathf.Clamp(_walkerPositions[w].x, 0, width - 1);
-                    _walkerPositions[w].y = Mathf.Clamp(_walkerPositions[w].y, 0, height - 1);
+                    _walkerPositions[w].x = Mathf.Clamp(_walkerPositions[w].x, 1, width - 2);
+                    _walkerPositions[w].y = Mathf.Clamp(_walkerPositions[w].y, 1, height - 2);
                 }
             }
 
