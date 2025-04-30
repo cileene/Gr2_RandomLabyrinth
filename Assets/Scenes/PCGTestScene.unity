@@ -14,10 +14,10 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
-  m_Fog: 0
+  m_Fog: 1
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
-  m_FogDensity: 0.01
+  m_FogDensity: 0.02
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
@@ -458,6 +458,7 @@ GameObject:
   m_Component:
   - component: {fileID: 770652267}
   - component: {fileID: 770652266}
+  - component: {fileID: 770652268}
   m_Layer: 0
   m_Name: PCG
   m_TagString: Untagged
@@ -482,11 +483,11 @@ MonoBehaviour:
   steps: 500
   walkerCount: 3
   changeDirChance: 0.2
-  specialTileChance: 0.1
+  fireTileChance: 0.01
   floorPrefab: {fileID: 5865752808958729063, guid: faeb1a58d56784a4a9d723c680af3d7b, type: 3}
   wallPrefab: {fileID: 5865752808958729063, guid: 7106480e1d8dd4e7d91411442ca36571, type: 3}
-  specialTilePrefab: {fileID: 5865752808958729063, guid: d366a67562c304b75977032eef4e1ecf, type: 3}
-  playerPrefab: {fileID: 1572101069444671729, guid: 2038fe75a0e4e4ec6bb9957f4baeaf17, type: 3}
+  fireTilePrefab: {fileID: 5865752808958729063, guid: d366a67562c304b75977032eef4e1ecf, type: 3}
+  playerPrefab: {fileID: 5885569299119556449, guid: 413fa7567bf6c44f39a94fc2bd6eae08, type: 3}
 --- !u!4 &770652267
 Transform:
   m_ObjectHideFlags: 0
@@ -497,6 +498,92 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &770652268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 770652265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a50cc37f1c92f4f4f8dae4abd864b929, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &1206164532
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1206164536}
+  - component: {fileID: 1206164535}
+  - component: {fileID: 1206164534}
+  - component: {fileID: 1206164533}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1206164533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1206164532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3db5871b04c5461a993d7808af8548c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gravityMultiplier: 1
+  fixedUpdateFPS: 120
+--- !u!114 &1206164534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1206164532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa54df973ebb04a29b9e5878f6a85054, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetFrameRate: 60
+  vSync: 0
+--- !u!114 &1206164535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1206164532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a50cc37f1c92f4f4f8dae4abd864b929, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1206164536
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1206164532}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 38.825787, y: 31.830946, z: 25.580256}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -634,6 +721,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 770652267}
+  - {fileID: 1206164536}
   - {fileID: 1841429264}
   - {fileID: 54384041}
   - {fileID: 1733212003}

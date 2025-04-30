@@ -1,20 +1,20 @@
 /*------------------------------------------------------------------------------
  DWLevelGenerator.cs
  Generates a grid‑based level at runtime using a multi‑agent Drunkard’s Walk
- algorithm and instantiates prefabs to visualise the result.
+ algorithm and instantiates prefabs to visualize the result.
 
  Steps:
    1. Initialise N walkers at random positions.
    2. Move each walker for a defined number of steps, carving floor tiles.
    3. Optionally convert a subset of floor tiles to "special" tiles.
-   4. Spawn the player on the first floor tile that passes a random check.
+   4. Spawn the player on the first-floor tile that passes a random check.
    5. Iterate over the grid and instantiate the appropriate prefab per cell.
 
- Attach this script to an empty GameObject in your scene.
  ------------------------------------------------------------------------------*/
 namespace ThisPCG
 {
     using UnityEngine;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Runtime procedural level generator based on the Drunkard's Walk algorithm.
@@ -27,12 +27,12 @@ namespace ThisPCG
         [SerializeField] private int steps = 500;  // Total walker moves
         [SerializeField] private int walkerCount = 3; // Number of simultaneous walkers
         [SerializeField] private float changeDirChance = 0.2f; // Chance a walker turns at each step
-        [SerializeField] private float specialTileChance = 0.1f; // Chance a carved floor becomes special
+        [SerializeField] private float fireTileChance = 0.1f; // Chance a carved floor becomes special
 
         // ---------- Prefab references ----------
         [SerializeField] private GameObject floorPrefab;     // Prefab for normal floor tiles
         [SerializeField] private GameObject wallPrefab;      // Prefab for wall tiles
-        [SerializeField] private GameObject specialTilePrefab; // Prefab for special floor tiles
+        [SerializeField] private GameObject fireTilePrefab; // Prefab for special floor tiles
         [SerializeField] private GameObject playerPrefab;    // Player character prefab
 
         // --- Runtime data containers ---
@@ -41,11 +41,11 @@ namespace ThisPCG
         private Vector2Int[] _walkerDirections;        // Direction each walker is moving
 
         /// <summary>
-        /// Unity entry point. Initialises data, generates the level, and renders it.
+        /// Unity entry point. Initializes data, generates the level, and renders it.
         /// </summary>
         private void Start()
         {
-            // Initialise the map array
+            // Initialize the map array
             _map = new int[width, height];
             // Clear the map (set all cells to 0 = wall)
             for (int x = 0; x < width; x++)
@@ -76,7 +76,7 @@ namespace ThisPCG
         /// </summary>
         private void GenerateLevel()
         {
-            // --- PHASE 1: Move walkers and carve floors ---
+            // --- PHASE 1: Move walkers and carve floors ---
             for (int i = 0; i < steps; i++)
             {
                 for (int w = 0; w < walkerCount; w++)
@@ -86,33 +86,46 @@ namespace ThisPCG
 
                     // Randomly change walker direction
                     if (Random.value < changeDirChance)
+                    {
                         _walkerDirections[w] = RandomDirection();
+                    }
 
                     _walkerPositions[w] += _walkerDirections[w];
+                    
                     // Keep walker inside grid bounds
                     _walkerPositions[w].x = Mathf.Clamp(_walkerPositions[w].x, 0, width - 1);
                     _walkerPositions[w].y = Mathf.Clamp(_walkerPositions[w].y, 0, height - 1);
                 }
             }
 
-            // --- PHASE 2: Post‑process tiles (special tiles + player spawn) ---
+            // --- PHASE 2: Post‑process tiles (special tiles) ---
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)
                 {
                     // Promote some floor tiles to special
-                    if (_map[x, y] == 1 && Random.value < specialTileChance)
+                    if (_map[x, y] == 1 && Random.value < fireTileChance)
                     {
                         _map[x, y] = 2;
                     }
-                    
-                    // Spawn the player on a random floor tile (temporary)
-                    if (_map[x, y] == 1 && Random.value < 0.01f) // this should be moved
-                    {
-                        Instantiate(playerPrefab, new Vector3(x, 2, y), Quaternion.identity);
-                        return;
-                    }
                 }
+            }
+
+            // --- PHASE 3: Spawn the player on a random floor tile ---
+            var floorTiles = new List<Vector2Int>();
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    if (_map[x, y] == 1)
+                        floorTiles.Add(new Vector2Int(x, y));
+                }
+            }
+
+            if (floorTiles.Count > 0)
+            {
+                var spawn = floorTiles[Random.Range(0, floorTiles.Count)];
+                Instantiate(playerPrefab, new Vector3(spawn.x, 2, spawn.y), Quaternion.identity);
             }
         }
 
@@ -130,15 +143,15 @@ namespace ThisPCG
                     {
                         case 0:
                             // Spawn wall
-                            Instantiate(wallPrefab, new Vector3(x, 1, y), Quaternion.identity, transform);
+                            Instantiate(wallPrefab, new Vector3(x, 0.5f, y), Quaternion.identity, transform);
                             break;
                         case 1:
                             // Spawn floor
                             Instantiate(floorPrefab, new Vector3(x, 0, y), Quaternion.identity, transform);
                             break;
                         case 2:
-                            // Spawn special floor tile (as a test)
-                            Instantiate(specialTilePrefab, new Vector3(x, 0, y), Quaternion.identity, transform);
+                            // Spawn fire floor tile
+                            Instantiate(fireTilePrefab, new Vector3(x, 0, y), Quaternion.identity, transform);
                             break;
                         default:
                             // Fallback if map[x, y] is something unexpected
