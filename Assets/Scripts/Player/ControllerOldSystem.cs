@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+
 namespace Player
 {
     [RequireComponent(typeof(Rigidbody))]
@@ -8,7 +9,7 @@ namespace Player
     {
         private Rigidbody _rb;
         
-        public float moveSpeed = 3f;
+        public float moveSpeed = 1f;
     
         [SerializeField] private float forceMultiplier = 10f;
         public bool isFlat = true;
@@ -25,6 +26,7 @@ namespace Player
             // Check if there is any touch input
             if (Input.touchCount == 0)
             {
+                
                 // No touch, use tilt or keyboard input
                 Vector3 tilt;
 
@@ -58,6 +60,7 @@ namespace Player
             }
             else
             {
+           
                 _rb.MovePosition(_rb.position + currentDirection * (moveSpeed * Time.fixedDeltaTime));
             }
         }
@@ -66,6 +69,6 @@ namespace Player
             Vector2 input = value.Get<Vector2>();
             currentDirection = new Vector3(input.x, 0f, input.y);
         }
-        
+         
     }
 }
