@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     public enum GameState { Start, Phase1, Phase2, Won, Lost }
     
     [Header("Progression")]
-    public int currentLevel;
+    public int currentScore;
     public int highScore;
     public float lastRunTime;
    
@@ -37,22 +37,12 @@ public class GameManager : MonoBehaviour
         string currentScene = SceneManager.GetActiveScene().name;
 
         if (currentScene == "StartScene") currentState = GameState.Start;
-        else if (currentScene == "PCGTestScene") currentState = GameState.Phase1;
+        else if (currentScene == "Labyrinth") currentState = GameState.Phase1;
     }
 
     private void Update()
     {
-        WaitForKeyToStart();
-        IncrementTime();
-    }
-
-    private void WaitForKeyToStart()
-    {
         if (currentState == GameState.Start && Input.anyKeyDown) StartGame();
-    }
-
-    private void IncrementTime()
-    {
         if (currentState is GameState.Phase1 or GameState.Phase2) _currentRunTime += Time.deltaTime;
     }
 
@@ -60,13 +50,21 @@ public class GameManager : MonoBehaviour
     {
         _currentRunTime = 0f;
         currentState = GameState.Phase1;
-        SceneManager.LoadSceneAsync("PCGTestScene");
+        SceneManager.LoadSceneAsync("Labyrinth");
+    }
+    
+    public void ReachedExit()
+    {
+        if (currentState != GameState.Phase1) return;
+        
+        currentState = GameState.Phase2;
+        SceneManager.LoadSceneAsync("Labyrinth");
     }
 
     public void WinLevel()
     {
         if (currentState != GameState.Phase2) return;
-        currentLevel++;
+        currentScore++;
 
         currentState = GameState.Won;
         SceneManager.LoadSceneAsync("WinScene");
@@ -78,7 +76,7 @@ public class GameManager : MonoBehaviour
         currentState = GameState.Lost;
         
         lastRunTime = _currentRunTime;
-        if (currentLevel > highScore) highScore = currentLevel;
+        if (currentScore > highScore) highScore = currentScore;
 
         SceneManager.LoadSceneAsync("LoseScene");
     }
