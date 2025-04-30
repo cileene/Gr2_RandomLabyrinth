@@ -4,7 +4,21 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public enum GameState { Start, Playing, Won, Lost }
-    public GameState currentState = GameState.Start;
+    public GameState currentState;
+
+    void Start()
+    {
+        string currentScene = SceneManager.GetActiveScene().name;
+
+        if (currentScene == "StartScene")
+        {
+            currentState = GameState.Start;
+        }
+        else if (currentScene == "PCGTestScene")
+        {
+            currentState = GameState.Playing;
+        }
+    }
 
     void Update()
     {
@@ -17,12 +31,13 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         currentState = GameState.Playing;
-        SceneManager.LoadScene("PCGTestScene"); //  actual game scene
+        SceneManager.LoadScene("PCGTestScene");
     }
 
     public void WinGame()
     {
         if (currentState != GameState.Playing) return;
+
         currentState = GameState.Won;
         SceneManager.LoadScene("WinScene");
     }
@@ -30,8 +45,10 @@ public class GameManager : MonoBehaviour
     public void LoseGame()
     {
         if (currentState != GameState.Playing) return;
+
         currentState = GameState.Lost;
         SceneManager.LoadScene("LoseScene");
     }
 }
+
 
