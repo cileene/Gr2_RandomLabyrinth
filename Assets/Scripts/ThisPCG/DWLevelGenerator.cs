@@ -15,6 +15,7 @@ namespace ThisPCG
 {
     using UnityEngine;
     using System.Collections.Generic;
+    using System.IO;
 
     /// <summary>
     /// Runtime procedural level generator based on the Drunkard's Walk algorithm.
@@ -43,6 +44,48 @@ namespace ThisPCG
         /// <summary>
         /// Unity entry point. Initializes data, generates the level, and renders it.
         /// </summary>
+        private string _dataPath;
+        
+        [System.Serializable]
+        public class MapData
+        {
+            public int width;
+            public int height;
+            public List<int> tiles; // Flattened 2D array into 1D list
+        }
+        void Awake()
+        {
+            _dataPath = Application.persistentDataPath + "/Player_Data/";
+            Debug.Log(_dataPath);
+        }
+       
+        public void SaveMapToJson()
+        {
+
+            Directory.CreateDirectory(_dataPath);
+            Debug.Log("New directory created!");
+
+            MapData data = new MapData
+            {
+                width = width,
+                height = height,
+                tiles = new List<int>()
+            };
+
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    data.tiles.Add(_map[x, y]);
+                }
+            }
+
+            string json = JsonUtility.ToJson(data, true);
+            string filePath = Path.Combine(_dataPath, "map.json");
+            File.WriteAllText(filePath, json);
+            Debug.Log("Map saved to: " + filePath);
+        }
+    
         private void Start()
         {
             // Initialize the map array
@@ -66,9 +109,12 @@ namespace ThisPCG
 
             // Carve the level layout
             GenerateLevel();
+            Debug.Log(_map);
 
             // Instantiate prefabs in the scene
             RenderLevel();
+            
+            SaveMapToJson();
         }
 
         /// <summary>
@@ -175,5 +221,6 @@ namespace ThisPCG
                 _ => Vector2Int.right
             };
         }
+      
     }
 }
