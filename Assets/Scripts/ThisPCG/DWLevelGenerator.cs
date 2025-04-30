@@ -10,7 +10,6 @@
    4. Spawn the player on the first-floor tile that passes a random check.
    5. Iterate over the grid and instantiate the appropriate prefab per cell.
 
- Attach this script to an empty GameObject in your scene.
  ------------------------------------------------------------------------------*/
 namespace ThisPCG
 {
@@ -87,9 +86,12 @@ namespace ThisPCG
 
                     // Randomly change walker direction
                     if (Random.value < changeDirChance)
+                    {
                         _walkerDirections[w] = RandomDirection();
+                    }
 
                     _walkerPositions[w] += _walkerDirections[w];
+                    
                     // Keep walker inside grid bounds
                     _walkerPositions[w].x = Mathf.Clamp(_walkerPositions[w].x, 0, width - 1);
                     _walkerPositions[w].y = Mathf.Clamp(_walkerPositions[w].y, 0, height - 1);
