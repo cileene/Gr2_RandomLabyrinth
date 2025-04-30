@@ -19,7 +19,7 @@
                 {
                     "name": "",
                     "id": "a272c41a-5841-4122-99fd-3fcd792bb6b1",
-                    "path": "<Touchscreen>/position",
+                    "path": "<Gamepad>/leftStick",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
