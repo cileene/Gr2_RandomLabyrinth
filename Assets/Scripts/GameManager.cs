@@ -1,72 +1,37 @@
 using UnityEngine;
-using UnityEngine.SceneManagement; // For restarting the game
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public enum GameState { Start, Playing, Won, Lost } // different possible game states
-    public GameState currentState = GameState.Start; // Tracks the state of the game
-
-    public GameObject startScreen; //  UI panel for start
-    public GameObject winScreen;   //  UI panel for win
-    public GameObject loseScreen;  //  UI panel for lose
-  
-
-    void Start()
-    {
-        ShowStartScreen(); //Shows start UI when game starts
-    }
+    public enum GameState { Start, Playing, Won, Lost }
+    public GameState currentState = GameState.Start;
 
     void Update()
     {
-        if (currentState == GameState.Start)
+        if (currentState == GameState.Start && Input.anyKeyDown)
         {
-            if (Input.anyKeyDown) 
-            {
-                StartGame(); // Begins game when player taps screen
-            }
+            StartGame();
         }
-       
     }
 
-    void ShowStartScreen()
+    public void StartGame()
     {
-        startScreen.SetActive(true); // Turns on the start screen panel "Tap to start"
-        winScreen.SetActive(false); // Turns off the win screen panel "You Win!
-        loseScreen.SetActive(false); //Turns off the lose screen panel "You Lost!"
-       
+        currentState = GameState.Playing;
+        SceneManager.LoadScene("PCGTestScene"); //  actual game scene
     }
 
-    void StartGame()
-    {
-       currentState = GameState.Playing;  //  Set game state to Playing
-        startScreen.SetActive(false);      //  Hide the start panel
-        // (ball script should be actived)
-    }
-
-    void WinGame() // Called by BallController script when player wins
+    public void WinGame()
     {
         if (currentState != GameState.Playing) return;
-
-        currentState = GameState.Won;         // Change game state to Won
-        winScreen.SetActive(true);            // Show the win panel
-        loseScreen.SetActive(false);          // Makes sure lose panel is hidden
-        
+        currentState = GameState.Won;
+        SceneManager.LoadScene("WinScene");
     }
 
     public void LoseGame()
     {
-        Debug.Log("LoseGame called");
-
-         //if (currentState != GameState.Playing) return; // Makes sure it only happens when we’re in Playing state (prevents double-triggers)
-
-        currentState = GameState.Lost;        // Changes game state to Lost
-        loseScreen.SetActive(true);           // Shows the lose panel
-        winScreen.SetActive(false);           // Makes sure win panel is hidden
-    }
-
-    public void RestartGame()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        if (currentState != GameState.Playing) return;
+        currentState = GameState.Lost;
+        SceneManager.LoadScene("LoseScene");
     }
 }
 
