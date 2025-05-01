@@ -4,9 +4,9 @@ namespace Platformer
 {
     public class EndZone : MonoBehaviour
     {
-        private void OnTriggerEnter(Collider other)
+        private void OnCollisionEnter(Collision other)
         {
-            if (other.CompareTag("Player"))
+            if (other.gameObject.CompareTag("Player"))
             {
                 TimeTracker.Instance.StopTimer();
 
