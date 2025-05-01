@@ -149,7 +149,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameMusicClip: {fileID: 8300000, guid: 14961667612754e4ba74eebf520de72e, type: 3}
+  gameMusicClip2: {fileID: 0}
   endZoneSound: {fileID: 8300000, guid: e7a0f235b42efff4799b329607176dda, type: 3}
+  fireExtinguishing: {fileID: 0}
+  gameOver: {fileID: 0}
+  waterDrip: {fileID: 0}
 --- !u!4 &670357791
 Transform:
   m_ObjectHideFlags: 0
