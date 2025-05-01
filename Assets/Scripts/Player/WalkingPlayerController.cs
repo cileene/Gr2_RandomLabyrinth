@@ -14,6 +14,7 @@ namespace Player
         {
             rb = GetComponent<Rigidbody>();
         }
+
         private void FixedUpdate()
         {
             HandleMovement();

@@ -16,7 +16,21 @@ public class TimeTracker : MonoBehaviour
         {
             Instance = this;
         }
+        else 
+        {
+            Destroy(gameObject);
+        }
     }
+
+    private void Update()
+    {
+        if (isTiming && timeText != null)
+        {
+            float currentTime = Time.time - startTime;
+            timeText.text = "Time: " + currentTime.ToString("F2") + " seconds";
+        }
+    }
+
 
     public void StartTimer()
     {
@@ -29,7 +43,7 @@ public class TimeTracker : MonoBehaviour
         if (isTiming)
         {
             float totalTime = Time.time - startTime;
-            timeText.text = "Tid: " + totalTime.ToString("F2") + " sekunder";
+            timeText.text = "Time: " + totalTime.ToString("F2") + " seconds";
             isTiming = false;
         }
     }
