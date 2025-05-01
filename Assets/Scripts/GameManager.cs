@@ -47,7 +47,6 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (currentState == GameState.Start && Input.anyKeyDown) StartGame();
         if (currentState is GameState.Phase1 or GameState.Phase2) _currentRunTime += Time.deltaTime;
     }
 
