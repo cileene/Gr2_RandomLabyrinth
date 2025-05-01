@@ -1,51 +1,53 @@
-/*------------------------------------------------------------------------------
- DWLevelGenerator.cs
- Generates a grid‑based level at runtime using a multi‑agent Drunkard’s Walk
- algorithm and instantiates prefabs to visualise the result.
-
- Steps:
-   1. Initialise N walkers at random positions.
-   2. Move each walker for a defined number of steps, carving floor tiles.
-   3. Optionally convert a subset of floor tiles to "special" tiles.
-   4. Spawn the player on the first floor tile that passes a random check.
-   5. Iterate over the grid and instantiate the appropriate prefab per cell.
-
- Attach this script to an empty GameObject in your scene.
- ------------------------------------------------------------------------------*/
 namespace ThisPCG
 {
     using UnityEngine;
-
-    /// <summary>
-    /// Runtime procedural level generator based on the Drunkard's Walk algorithm.
-    /// </summary>
+    using System.Collections.Generic;
+    using System.IO;
+    
     public class DWLevelGenerator : MonoBehaviour
     {
         // ---------- Generator configuration ----------
-        [SerializeField] private int width = 50;   // Grid width (x‑axis tiles)
-        [SerializeField] private int height = 50;  // Grid height (y‑axis tiles)
-        [SerializeField] private int steps = 500;  // Total walker moves
-        [SerializeField] private int walkerCount = 3; // Number of simultaneous walkers
-        [SerializeField] private float changeDirChance = 0.2f; // Chance a walker turns at each step
-        [SerializeField] private float specialTileChance = 0.1f; // Chance a carved floor becomes special
+        [SerializeField] private int width = 35;
+        [SerializeField] private int height = 35;
+        [SerializeField] private int steps = 63;
+        [SerializeField] private int walkerCount = 10;
+        [SerializeField] private float changeDirChance = 0.08f;
+        [SerializeField] private float fireTileChance = 0.03f;
+        [SerializeField] private float waterTileChance = 0.1f;
 
         // ---------- Prefab references ----------
-        [SerializeField] private GameObject floorPrefab;     // Prefab for normal floor tiles
-        [SerializeField] private GameObject wallPrefab;      // Prefab for wall tiles
-        [SerializeField] private GameObject specialTilePrefab; // Prefab for special floor tiles
-        [SerializeField] private GameObject playerPrefab;    // Player character prefab
+        [SerializeField] private GameObject floorPrefab;
+        [SerializeField] private GameObject wallPrefab;
+        [SerializeField] private GameObject fireTilePrefab;
+        [SerializeField] private GameObject waterTilePrefab;
+        [SerializeField] private GameObject playerPrefab;
+        [SerializeField] private GameObject exitPrefab;
+        [SerializeField] private GameObject wallRemoverPrefab;
 
         // --- Runtime data containers ---
-        private int[,] _map;                           // 0 = wall, 1 = floor, 2 = special floor
+        private int[,] _map;                           // 0 = wall, 1 = floor, 2 = fire floor, 3 = exit
         private Vector2Int[] _walkerPositions;         // Current grid position of each walker
         private Vector2Int[] _walkerDirections;        // Direction each walker is moving
-
-        /// <summary>
-        /// Unity entry point. Initialises data, generates the level, and renders it.
-        /// </summary>
+        
+        private string _dataPath;
+        
+        [System.Serializable]
+        public class MapData
+        {
+            public int width;
+            public int height;
+            public List<int> tiles; // Flattened 2D array into 1D list
+        }
+        
+        void Awake()
+        {
+            _dataPath = Application.persistentDataPath + "/Player_Data/";
+            Debug.Log(_dataPath);
+        }
+    
         private void Start()
         {
-            // Initialise the map array
+            // Initialize the map array
             _map = new int[width, height];
             // Clear the map (set all cells to 0 = wall)
             for (int x = 0; x < width; x++)
@@ -63,20 +65,18 @@ namespace ThisPCG
                 _walkerPositions[i] = new Vector2Int(Random.Range(0, width), Random.Range(0, height));
                 _walkerDirections[i] = RandomDirection();
             }
-
-            // Carve the level layout
+            
             GenerateLevel();
-
-            // Instantiate prefabs in the scene
+            Debug.Log(_map);
+            
             RenderLevel();
+            
+            SaveMapToJson();
         }
-
-        /// <summary>
-        /// Executes the Drunkard’s Walk algorithm to carve floors and assign special tiles.
-        /// </summary>
+        
         private void GenerateLevel()
         {
-            // --- PHASE 1: Move walkers and carve floors ---
+            // --- PHASE 1: Move walkers and carve floors ---
             for (int i = 0; i < steps; i++)
             {
                 for (int w = 0; w < walkerCount; w++)
@@ -86,39 +86,61 @@ namespace ThisPCG
 
                     // Randomly change walker direction
                     if (Random.value < changeDirChance)
+                    {
                         _walkerDirections[w] = RandomDirection();
+                    }
 
                     _walkerPositions[w] += _walkerDirections[w];
+                    
                     // Keep walker inside grid bounds
-                    _walkerPositions[w].x = Mathf.Clamp(_walkerPositions[w].x, 0, width - 1);
-                    _walkerPositions[w].y = Mathf.Clamp(_walkerPositions[w].y, 0, height - 1);
+                    _walkerPositions[w].x = Mathf.Clamp(_walkerPositions[w].x, 1, width - 2);
+                    _walkerPositions[w].y = Mathf.Clamp(_walkerPositions[w].y, 1, height - 2);
                 }
             }
 
-            // --- PHASE 2: Post‑process tiles (special tiles + player spawn) ---
+            // --- PHASE 2: Post‑process tiles (special tiles) ---
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)
                 {
                     // Promote some floor tiles to special
-                    if (_map[x, y] == 1 && Random.value < specialTileChance)
+                    if (_map[x, y] == 1 && Random.value < fireTileChance)
                     {
                         _map[x, y] = 2;
                     }
-                    
-                    // Spawn the player on a random floor tile (temporary)
-                    if (_map[x, y] == 1 && Random.value < 0.01f) // this should be moved
+                    else if (_map[x, y] == 1 && Random.value < waterTileChance)
                     {
-                        Instantiate(playerPrefab, new Vector3(x, 2, y), Quaternion.identity);
-                        return;
+                        _map[x, y] = 4;
                     }
                 }
             }
-        }
 
-        /// <summary>
-        /// Converts the numeric map into actual GameObjects in the scene.
-        /// </summary>
+            // --- PHASE 3: Spawn the player on a random floor tile ---
+            var floorTiles = new List<Vector2Int>();
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    if (_map[x, y] == 1)
+                        floorTiles.Add(new Vector2Int(x, y));
+                }
+            }
+
+            if (floorTiles.Count <= 0) return;
+            
+            // Randomly select a floor tile to mark as the exit
+            var exitSpawn = floorTiles[Random.Range(0, floorTiles.Count)];
+            _map[exitSpawn.x, exitSpawn.y] = 3;
+            
+            // Randomly select a floor tile to spawn the player
+            var playerSpawn = floorTiles[Random.Range(0, floorTiles.Count)];
+            Instantiate(playerPrefab, new Vector3(playerSpawn.x, 2, playerSpawn.y), Quaternion.identity);
+            
+            // Instantiate the wall remover prefab
+            Instantiate(wallRemoverPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+                
+        }
+        
         private void RenderLevel()
         {
             // Iterate over each cell and instantiate the correct prefab
@@ -130,15 +152,22 @@ namespace ThisPCG
                     {
                         case 0:
                             // Spawn wall
-                            Instantiate(wallPrefab, new Vector3(x, 1, y), Quaternion.identity, transform);
+                            Instantiate(wallPrefab, new Vector3(x, 0.5f, y), Quaternion.identity, transform);
                             break;
                         case 1:
                             // Spawn floor
                             Instantiate(floorPrefab, new Vector3(x, 0, y), Quaternion.identity, transform);
                             break;
                         case 2:
-                            // Spawn special floor tile (as a test)
-                            Instantiate(specialTilePrefab, new Vector3(x, 0, y), Quaternion.identity, transform);
+                            // Spawn fire floor tile
+                            Instantiate(fireTilePrefab, new Vector3(x, 0, y), Quaternion.identity, transform);
+                            break;
+                        case 3:
+                            // Spawn exit
+                            Instantiate(exitPrefab, new Vector3(x, 0, y), Quaternion.identity, transform);
+                            break;
+                        case 4:
+                            Instantiate(waterTilePrefab, new Vector3(x, 0, y), Quaternion.identity, transform);
                             break;
                         default:
                             // Fallback if map[x, y] is something unexpected
@@ -148,10 +177,7 @@ namespace ThisPCG
                 }
             }
         }
-
-        /// <summary>
-        /// Returns a random cardinal direction as a Vector2Int.
-        /// </summary>
+        
         private Vector2Int RandomDirection()
         {
             return Random.Range(0, 4) switch
@@ -161,6 +187,33 @@ namespace ThisPCG
                 2 => Vector2Int.left,
                 _ => Vector2Int.right
             };
+        }
+      
+        public void SaveMapToJson()
+        {
+
+            Directory.CreateDirectory(_dataPath);
+            Debug.Log("New directory created!");
+
+            MapData data = new MapData
+            {
+                width = width,
+                height = height,
+                tiles = new List<int>()
+            };
+
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    data.tiles.Add(_map[x, y]);
+                }
+            }
+
+            string json = JsonUtility.ToJson(data, true);
+            string filePath = Path.Combine(_dataPath, "map.json");
+            File.WriteAllText(filePath, json);
+            Debug.Log("Map saved to: " + filePath);
         }
     }
 }

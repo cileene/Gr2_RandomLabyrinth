@@ -1,0 +1,21 @@
+using UnityEngine;
+
+namespace Platformer
+{
+    public class EndZone : MonoBehaviour
+    {
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Player"))
+            {
+                TimeTracker.Instance.StopTimer();
+
+                if (SoundManager.Instance.endZoneSound != null)
+                {
+                    SoundManager.Instance.PlaySfx(SoundManager.Instance.endZoneSound);
+                }
+                GameManager.Instance.ReachedExit();
+            }
+        }
+    }
+}
