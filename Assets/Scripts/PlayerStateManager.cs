@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class PlayerStateManager : MonoBehaviour
 {
+    [SerializeField] public GameObject wetParticles;
+    
     private PlayerStates.IPlayerStates currentState;
 
     public void SetState(PlayerStates.IPlayerStates newState)
@@ -17,6 +19,11 @@ public class PlayerStateManager : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        currentState.OnCollision(this, collision);
+        currentState.HandleCollision(this, collision);
+    }
+    
+    private void OnTriggerEnter(Collider other)
+    {
+        currentState.HandleTrigger(this, other);
     }
 }
