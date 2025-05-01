@@ -89,6 +89,7 @@ public class GameManager : MonoBehaviour
         }
         else if (currentState == GameState.Phase2)
         {
+            SaveRunTimeToJson();
             WinLevel();
         }
     }
@@ -98,7 +99,7 @@ public class GameManager : MonoBehaviour
         if (currentState != GameState.Phase2) return;
         currentState = GameState.Won;
         currentScore++;
-        SaveRunTimeToJson();
+        
 
         SceneManager.LoadSceneAsync("WinScene");
     }
