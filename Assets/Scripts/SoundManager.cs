@@ -7,7 +7,11 @@ public class SoundManager : MonoBehaviour
     private AudioSource musicSource;
 
     public AudioClip gameMusicClip;
+    public AudioClip gameMusicClip2;
     public AudioClip endZoneSound;
+    public AudioClip fireExtinguishing;
+    public AudioClip gameOver;
+    public AudioClip waterDrip;
 
     private void Awake()
     {
