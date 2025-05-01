@@ -104,7 +104,11 @@ namespace ThisPCG
                 for (int y = 0; y < height; y++)
                 {
                     // Promote some floor tiles to special
-                    if (_map[x, y] == 1 && Random.value < waterTileChance)
+                    if (_map[x, y] == 1 && Random.value < fireTileChance)
+                    {
+                        _map[x, y] = 2;
+                    }
+                    else if (_map[x, y] == 1 && Random.value < waterTileChance)
                     {
                         _map[x, y] = 4;
                     }
