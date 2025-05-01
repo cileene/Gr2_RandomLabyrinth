@@ -8,18 +8,24 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     // ------------------ VARIABLES ------------------
-    [Header("State")]
-    public GameState currentState;
-    public enum GameState { Start, Phase1, Phase2, Won, Lost }
-    
-    [Header("Progression")]
-    public int currentScore;
+    [Header("State")] public GameState currentState;
+
+    public enum GameState
+    {
+        Start,
+        Phase1,
+        Phase2,
+        Won,
+        Lost
+    }
+
+    [Header("Progression")] public int currentScore;
     public int highScore;
     public float lastRunTime;
-   
+
     private float _currentRunTime;
-    
-    
+
+
     // ------------------ METHODS ------------------
     private void Awake()
     {
@@ -29,7 +35,6 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
         else Destroy(gameObject);
-        
     }
 
     private void Start()
@@ -52,31 +57,38 @@ public class GameManager : MonoBehaviour
         currentState = GameState.Phase1;
         SceneManager.LoadSceneAsync("Labyrinth");
     }
-    
+
     public void ReachedExit()
     {
-        if (currentState != GameState.Phase1) return;
-        
-        currentState = GameState.Phase2;
-        SceneManager.LoadSceneAsync("Labyrinth");
+        if (currentState == GameState.Phase1)
+        {
+            SceneManager.LoadSceneAsync("MaterialTestScene");
+            currentState = GameState.Phase2;
+        }
+        else if (currentState == GameState.Phase2)
+        {
+            WinLevel();
+        }
     }
 
     public void WinLevel()
     {
         if (currentState != GameState.Phase2) return;
+        currentState = GameState.Won;
         currentScore++;
 
-        currentState = GameState.Won;
-        SceneManager.LoadSceneAsync("WinScene");
+        SceneManager.LoadSceneAsync("Labyrinth");
+        currentState = GameState.Phase1;
     }
 
     public void LoseGame()
     {
         if (currentState is not (GameState.Phase1 or GameState.Phase2)) return;
         currentState = GameState.Lost;
-        
+
         lastRunTime = _currentRunTime;
         if (currentScore > highScore) highScore = currentScore;
+        currentScore = 0;
 
         SceneManager.LoadSceneAsync("LoseScene");
     }
