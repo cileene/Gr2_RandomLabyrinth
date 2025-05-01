@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 [System.Serializable]
 public class RunTimeData
 {
-    public float lastRunTime;
+    public float fastestRunTime;
 }
 [Serializable]
 public class GameManager : MonoBehaviour
@@ -28,9 +28,10 @@ public class GameManager : MonoBehaviour
     }
 
     [Header("Progression")] 
-    public int currentScore;
-    public int highScore;
+    //public int currentScore;
+    //public int highScore;
     public float lastRunTime;
+    public float fastestRunTime;
 
     private float _currentRunTime;
 
@@ -54,6 +55,8 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         string currentScene = SceneManager.GetActiveScene().name;
+        
+        LoadRunTimeFromJson();
 
         if (currentScene == "StartScene") currentState = GameState.Start;
         else if (currentScene == "Labyrinth") currentState = GameState.Phase1;
@@ -71,7 +74,7 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadSceneAsync("Labyrinth");
         SoundManager.Instance.PlayMusic(SoundManager.Instance.gameMusicClip);
         Unity.Services.Analytics.AnalyticsService.Instance.RecordEvent("startGame");
-        LoadRunTimeFromJson();
+        //LoadRunTimeFromJson();
     }
 
     public void ReachedExit()
@@ -93,7 +96,7 @@ public class GameManager : MonoBehaviour
         }
         else if (currentState == GameState.Phase2)
         {
-            SaveRunTimeToJson();
+            //SaveRunTimeToJson();
             WinLevel();
         }
     }
@@ -102,8 +105,12 @@ public class GameManager : MonoBehaviour
     {
         if (currentState != GameState.Phase2) return;
         currentState = GameState.Won;
-        currentScore++;
-        LoadRunTimeFromJson();
+        //currentScore++;
+        //LoadRunTimeFromJson();
+        lastRunTime = _currentRunTime;
+        if (fastestRunTime == 0 || _currentRunTime < fastestRunTime) fastestRunTime = _currentRunTime;
+        
+        SaveRunTimeToJson();
 
         SceneManager.LoadSceneAsync("WinScene");
         
@@ -116,10 +123,9 @@ public class GameManager : MonoBehaviour
         currentState = GameState.Lost;
         
 
-        lastRunTime = _currentRunTime;
-        if (currentScore > highScore) highScore = currentScore;
-        currentScore = 0;
-        LoadRunTimeFromJson();
+        //if (currentScore > highScore) highScore = currentScore;
+        //currentScore = 0;
+        //LoadRunTimeFromJson();
 
         SceneManager.LoadSceneAsync("LoseScene");
         Unity.Services.Analytics.AnalyticsService.Instance.RecordEvent("loseGame");
@@ -129,7 +135,7 @@ public class GameManager : MonoBehaviour
         Directory.CreateDirectory(_dataPath);
         Debug.Log("New directory created!");
 
-        RunTimeData runTimeData = new RunTimeData { lastRunTime = _currentRunTime };
+        RunTimeData runTimeData = new RunTimeData { fastestRunTime = fastestRunTime };
         string json = JsonUtility.ToJson(runTimeData, true);
 
         string filePath = Path.Combine(_dataPath, "runTime.json");
@@ -147,7 +153,7 @@ public class GameManager : MonoBehaviour
 
         string text = File.ReadAllText(filePath);
         RunTimeData data = JsonUtility.FromJson<RunTimeData>(text);
-        lastRunTime = data.lastRunTime;
-        Debug.Log("Loaded run time: " + lastRunTime);
+        fastestRunTime = data.fastestRunTime;
+        Debug.Log("Loaded run time: " + fastestRunTime);
     }
 }
