@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 
 public class TearDownWalls : MonoBehaviour
@@ -6,7 +7,7 @@ public class TearDownWalls : MonoBehaviour
     [SerializeField] private float timerLength = 0.5f;
     
     private float _removeWallTimer;
-    private GameObject[] _walls;
+    private List<GameObject> _walls;
 
     
     private void Start()
@@ -14,7 +15,7 @@ public class TearDownWalls : MonoBehaviour
         _removeWallTimer = timerLength;
         
         // Set all wall prefabs to kinematic
-        _walls = GameObject.FindGameObjectsWithTag("Wall");
+        _walls = new List<GameObject>(GameObject.FindGameObjectsWithTag("Wall"));
     }
     
     private void Update()
@@ -27,14 +28,19 @@ public class TearDownWalls : MonoBehaviour
     {
         if (_removeWallTimer <= 0)
         {
-            if (_walls.Length > 0)
+            if (_walls.Count > 0)
             {
-                int randomIndex = Random.Range(0, _walls.Length);
+                int randomIndex = Random.Range(0, _walls.Count);
                 GameObject randomWall = _walls[randomIndex];
-                randomWall.GetComponent<Rigidbody>().isKinematic = false;
+                Rigidbody rb = randomWall.GetComponent<Rigidbody>();
+                if (rb != null)
+                {
+                    rb.isKinematic = false;
+                }
                 Destroy(randomWall, 5f); // Destroy the wall after 2 seconds
+                _walls.RemoveAt(randomIndex);
             }
-            _removeWallTimer = 0.5f; // Reset the timer
+            _removeWallTimer = timerLength; // Reset the timer
         }
         else
         {
