@@ -150,10 +150,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   width: 35
   height: 35
-  steps: 350
-  walkerCount: 3
-  changeDirChance: 0.2
-  fireTileChance: 0.1
+  steps: 63
+  walkerCount: 10
+  changeDirChance: 0.08
+  fireTileChance: 0.03
   waterTileChance: 0.1
   floorPrefab: {fileID: 5865752808958729063, guid: 10483046f68464cf4865fe1fae1b7f56, type: 3}
   wallPrefab: {fileID: 5865752808958729063, guid: 7106480e1d8dd4e7d91411442ca36571, type: 3}
