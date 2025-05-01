@@ -12,10 +12,9 @@ GameObject:
   - component: {fileID: 3225119790968351872}
   - component: {fileID: 189765853902075447}
   - component: {fileID: 5466329173984533691}
-  - component: {fileID: 3550753134433853746}
   m_Layer: 0
   m_Name: FireTile
-  m_TagString: Fire
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 122
@@ -104,54 +103,12 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3550753134433853746
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5865752808958729063}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a3c82cd61f91429c9a4218bcd57d6aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onPlayerEnter:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6980121985128152389, guid: cfc6ad0af5ecf4494a34d0c755ca8f82, type: 3}
-        m_TargetAssemblyTypeName: TurtleEffectReceiver, Assembly-CSharp
-        m_MethodName: EnableSmoke
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  onPlayerExit:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6980121985128152389, guid: cfc6ad0af5ecf4494a34d0c755ca8f82, type: 3}
-        m_TargetAssemblyTypeName: TurtleEffectReceiver, Assembly-CSharp
-        m_MethodName: DisableSmoke
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1001 &5668999926164300435
 PrefabInstance:
   m_ObjectHideFlags: 0
