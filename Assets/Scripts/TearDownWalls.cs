@@ -41,5 +41,4 @@ public class TearDownWalls : MonoBehaviour
             _removeWallTimer -= Time.deltaTime;
         }
     }
-
 }

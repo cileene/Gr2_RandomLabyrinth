@@ -6,11 +6,14 @@ namespace Tiles
     {
         protected override PhysicsMaterial CreateMaterial()
         {
-            var mat = new PhysicsMaterial("Grass");
-            mat.dynamicFriction = 1f;
-            mat.staticFriction = 1f;
-            mat.frictionCombine = PhysicsMaterialCombine.Minimum;
-            mat.bounceCombine = PhysicsMaterialCombine.Minimum;
+            var mat = new PhysicsMaterial("Grass")
+            {
+                dynamicFriction = 1f,
+                staticFriction = 1f,
+                bounciness = 0f,
+                frictionCombine = PhysicsMaterialCombine.Minimum,
+                bounceCombine = PhysicsMaterialCombine.Minimum
+            };
             return mat;
         }
     }

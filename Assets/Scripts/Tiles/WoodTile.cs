@@ -2,14 +2,15 @@ using UnityEngine;
 
 namespace Tiles
 {
-    public class IceTile : Tile
+    public class WoodTile : Tile
     {
         protected override PhysicsMaterial CreateMaterial()
         {
-            var material = new PhysicsMaterial("Ice")
+            var material = new PhysicsMaterial("Wood")
             {
-                dynamicFriction = 0f,
-                staticFriction = 0f,
+                dynamicFriction = 0.6f,
+                staticFriction = 0.5f,
+                bounciness = 0f,
                 frictionCombine = PhysicsMaterialCombine.Multiply,
                 bounceCombine = PhysicsMaterialCombine.Average
             };
