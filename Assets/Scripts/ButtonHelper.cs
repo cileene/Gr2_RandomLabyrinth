@@ -7,7 +7,7 @@ public class ButtonHelper : MonoBehaviour
 {
     public void LoadGameScene()
     {
-        SceneManager.LoadScene("PCGTestScene"); // Start new round
+        GameManager.Instance.StartGame(); // Start the game
     }
 
     public void LoadStartScene()

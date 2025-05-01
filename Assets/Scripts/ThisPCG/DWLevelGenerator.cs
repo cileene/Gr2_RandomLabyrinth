@@ -7,19 +7,22 @@ namespace ThisPCG
     public class DWLevelGenerator : MonoBehaviour
     {
         // ---------- Generator configuration ----------
-        [SerializeField] private int width = 50;
-        [SerializeField] private int height = 50;
-        [SerializeField] private int steps = 500;
-        [SerializeField] private int walkerCount = 3;
-        [SerializeField] private float changeDirChance = 0.2f;
-        [SerializeField] private float fireTileChance = 0.1f;
+        [SerializeField] private int width = 35;
+        [SerializeField] private int height = 35;
+        [SerializeField] private int steps = 63;
+        [SerializeField] private int walkerCount = 10;
+        [SerializeField] private float changeDirChance = 0.08f;
+        [SerializeField] private float fireTileChance = 0.03f;
+        [SerializeField] private float waterTileChance = 0.1f;
 
         // ---------- Prefab references ----------
         [SerializeField] private GameObject floorPrefab;
         [SerializeField] private GameObject wallPrefab;
         [SerializeField] private GameObject fireTilePrefab;
+        [SerializeField] private GameObject waterTilePrefab;
         [SerializeField] private GameObject playerPrefab;
         [SerializeField] private GameObject exitPrefab;
+        [SerializeField] private GameObject wallRemoverPrefab;
 
         // --- Runtime data containers ---
         private int[,] _map;                           // 0 = wall, 1 = floor, 2 = fire floor, 3 = exit
@@ -105,6 +108,10 @@ namespace ThisPCG
                     {
                         _map[x, y] = 2;
                     }
+                    else if (_map[x, y] == 1 && Random.value < waterTileChance)
+                    {
+                        _map[x, y] = 4;
+                    }
                 }
             }
 
@@ -128,6 +135,9 @@ namespace ThisPCG
             // Randomly select a floor tile to spawn the player
             var playerSpawn = floorTiles[Random.Range(0, floorTiles.Count)];
             Instantiate(playerPrefab, new Vector3(playerSpawn.x, 2, playerSpawn.y), Quaternion.identity);
+            
+            // Instantiate the wall remover prefab
+            Instantiate(wallRemoverPrefab, new Vector3(0, 0, 0), Quaternion.identity);
                 
         }
         
@@ -155,6 +165,9 @@ namespace ThisPCG
                         case 3:
                             // Spawn exit
                             Instantiate(exitPrefab, new Vector3(x, 0, y), Quaternion.identity, transform);
+                            break;
+                        case 4:
+                            Instantiate(waterTilePrefab, new Vector3(x, 0, y), Quaternion.identity, transform);
                             break;
                         default:
                             // Fallback if map[x, y] is something unexpected
