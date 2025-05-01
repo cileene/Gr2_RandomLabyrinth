@@ -1,50 +1,53 @@
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
-public class TimeTracker : MonoBehaviour
+namespace Platformer
 {
-    public static TimeTracker Instance { get; private set; }
-
-    public TextMeshProUGUI timeText;
-
-    private float startTime;
-    private bool isTiming;
-
-    private void Awake()
+    public class TimeTracker : MonoBehaviour
     {
-        if (Instance == null)
+        public static TimeTracker Instance { get; private set; }
+
+        public TextMeshProUGUI timeText;
+
+        private float startTime;
+        private bool isTiming;
+
+        private void Awake()
         {
-            Instance = this;
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            else 
+            {
+                Destroy(gameObject);
+            }
         }
-        else 
+
+        private void Update()
         {
-            Destroy(gameObject);
+            if (isTiming && timeText != null)
+            {
+                float currentTime = Time.time - startTime;
+                timeText.text = "Time: " + currentTime.ToString("F2") + " seconds";
+            }
         }
-    }
 
-    private void Update()
-    {
-        if (isTiming && timeText != null)
+
+        public void StartTimer()
         {
-            float currentTime = Time.time - startTime;
-            timeText.text = "Time: " + currentTime.ToString("F2") + " seconds";
+            startTime = Time.time;
+            isTiming = true;
         }
-    }
 
-
-    public void StartTimer()
-    {
-        startTime = Time.time;
-        isTiming = true;
-    }
-
-    public void StopTimer()
-    {
-        if (isTiming)
+        public void StopTimer()
         {
-            float totalTime = Time.time - startTime;
-            timeText.text = "Time: " + totalTime.ToString("F2") + " seconds";
-            isTiming = false;
+            if (isTiming)
+            {
+                float totalTime = Time.time - startTime;
+                timeText.text = "Time: " + totalTime.ToString("F2") + " seconds";
+                isTiming = false;
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 [Serializable]
 public class GameManager : MonoBehaviour
@@ -61,7 +62,17 @@ public class GameManager : MonoBehaviour
     {
         if (currentState == GameState.Phase1)
         {
-            SceneManager.LoadSceneAsync("MaterialTestScene");
+            int random = Random.Range(0, 2);
+            
+            if (random == 0)
+            {
+                SceneManager.LoadSceneAsync("Platform1");
+            }
+            else
+            {
+                SceneManager.LoadSceneAsync("Platform2");
+            }
+            
             currentState = GameState.Phase2;
         }
         else if (currentState == GameState.Phase2)
