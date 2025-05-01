@@ -6,23 +6,23 @@ public class PlayerStateManager : MonoBehaviour
     
     private PlayerStates.IPlayerStates currentState;
 
-    public void SetState(PlayerStates.IPlayerStates newState)
+    public void SetState(PlayerStates.IPlayerStates newState) // Change the player state
     {
         currentState = newState;
         Debug.Log("State changed to: " + newState.GetType().Name);
     }
 
-    private void Start()
+    private void Start() // Initialize the player state
     {
         SetState(new PlayerStates.NormalState());
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision collision) // Handle collision events
     {
         currentState.HandleCollision(this, collision);
     }
     
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other) // Handle trigger events
     {
         currentState.HandleTrigger(this, other);
     }

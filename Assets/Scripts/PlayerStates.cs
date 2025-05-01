@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class PlayerStates : MonoBehaviour
 {
-    public interface IPlayerStates
+    public interface IPlayerStates // Interface for player states
     {
         void HandleCollision(PlayerStateManager player, Collision collision);
         void HandleTrigger(PlayerStateManager player, Collider other);
     }
         
-    public class NormalState : IPlayerStates
+    public class NormalState : IPlayerStates // Normal state of the player
     {
         public void HandleTrigger(PlayerStateManager player, Collider other)
         {
@@ -19,7 +19,7 @@ public class PlayerStates : MonoBehaviour
             }
             
         }
-        public void HandleCollision(PlayerStateManager player, Collision collision)
+        public void HandleCollision(PlayerStateManager player, Collision collision) 
         {
             if (collision.gameObject.CompareTag("Water"))
             {
@@ -30,7 +30,7 @@ public class PlayerStates : MonoBehaviour
         }
     }
         
-    public class WaterState : IPlayerStates
+    public class WaterState : IPlayerStates // Water state of the player
     {
         public void HandleCollision(PlayerStateManager player, Collision collision)
         {
