@@ -61,6 +61,7 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         if (currentState is GameState.Phase1 or GameState.Phase2) _currentRunTime += Time.deltaTime;
+        LoadRunTimeFromJson();
     }
 
     public void StartGame()
