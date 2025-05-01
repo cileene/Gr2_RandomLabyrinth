@@ -1,40 +1,43 @@
-public interface IMovementStrategy 
+namespace TurtleTileIINT
 {
-    void Move(TurtleController turtle);
-}
-
-public class GrassMovement : IMovementStrategy 
-{
-    public void Move(TurtleController turtle) 
+    public interface IMovementStrategy 
     {
-        turtle.MoveWithSpeed(1.0f);
-        //will be another movement
+        void Move(TurtleController turtle);
     }
-}
 
-public class SandMovement : IMovementStrategy 
-{
-    public void Move(TurtleController turtle) 
+    public class GrassMovement : IMovementStrategy 
     {
-        turtle.MoveWithSpeed(0.5f);
-        //will be another movement
+        public void Move(TurtleController turtle) 
+        {
+            turtle.MoveWithSpeed(1.0f);
+            //will be another movement
+        }
     }
-}
 
-public class WaterMovement : IMovementStrategy 
-{
-    public void Move(TurtleController turtle) 
+    public class SandMovement : IMovementStrategy 
     {
-        turtle.MoveWithSpeed(0.3f);
-        //will be another movement
+        public void Move(TurtleController turtle) 
+        {
+            turtle.MoveWithSpeed(0.5f);
+            //will be another movement
+        }
     }
-}
 
-public class FireMovement : IMovementStrategy 
-{
-    public void Move(TurtleController turtle)
+    public class WaterMovement : IMovementStrategy 
     {
-        turtle.MoveWithSpeed(1.5f);
-        // will be another movement
+        public void Move(TurtleController turtle) 
+        {
+            turtle.MoveWithSpeed(0.3f);
+            //will be another movement
+        }
+    }
+
+    public class FireMovement : IMovementStrategy 
+    {
+        public void Move(TurtleController turtle)
+        {
+            turtle.MoveWithSpeed(1.5f);
+            // will be another movement
+        }
     }
 }

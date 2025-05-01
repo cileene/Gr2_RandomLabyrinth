@@ -1,46 +1,49 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class TurtleController : MonoBehaviour 
+namespace TurtleTileIINT
 {
-    public UnityEvent<string> OnTileEntered;
-
-    public IMovementStrategy currentStrategy;
-
-    public void SetStrategy(IMovementStrategy strategy, string tileType) 
+    public class TurtleController : MonoBehaviour 
     {
-        currentStrategy = strategy;
-        OnTileEntered?.Invoke(tileType);
-    }
+        public UnityEvent<string> OnTileEntered;
 
-    public void MoveWithSpeed(float speed) 
-    {
-        transform.Translate(Vector3.forward * speed * Time.deltaTime);
-    }
+        public IMovementStrategy currentStrategy;
 
-    public void EnableSmoke() 
-    {
-        // Trigger smoke animation
-    }
+        public void SetStrategy(IMovementStrategy strategy, string tileType) 
+        {
+            currentStrategy = strategy;
+            OnTileEntered?.Invoke(tileType);
+        }
 
-    public void DisableSmoke() 
-    {
-        // Stop smoke animation
-    }
+        public void MoveWithSpeed(float speed) 
+        {
+            transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        }
 
-    public void DisableMovement() 
-    {
-        // Freeze movement
-    }
+        public void EnableSmoke() 
+        {
+            // Trigger smoke animation
+        }
 
-    public void PlayBubbleFloatAnim() 
-    {
-        // Play float animation
-    }
+        public void DisableSmoke() 
+        {
+            // Stop smoke animation
+        }
 
-    public void StopBubbleAnim() 
-    {
-        // Stop bubble animation
+        public void DisableMovement() 
+        {
+            // Freeze movement
+        }
+
+        public void PlayBubbleFloatAnim() 
+        {
+            // Play float animation
+        }
+
+        public void StopBubbleAnim() 
+        {
+            // Stop bubble animation
+        }
     }
 }
 
