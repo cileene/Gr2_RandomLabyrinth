@@ -12,12 +12,14 @@ namespace ThisPCG
         [SerializeField] private int steps = 63;
         [SerializeField] private int walkerCount = 10;
         [SerializeField] private float changeDirChance = 0.082f;
-        [SerializeField] private float fireTileChance = 0f;
+        [SerializeField] private float fireTileChance = 0.1f;
+        [SerializeField] private float waterTileChance = 0.1f;
 
         // ---------- Prefab references ----------
         [SerializeField] private GameObject floorPrefab;
         [SerializeField] private GameObject wallPrefab;
         [SerializeField] private GameObject fireTilePrefab;
+        [SerializeField] private GameObject waterTilePrefab;
         [SerializeField] private GameObject playerPrefab;
         [SerializeField] private GameObject exitPrefab;
         [SerializeField] private GameObject wallRemoverPrefab;
@@ -102,9 +104,9 @@ namespace ThisPCG
                 for (int y = 0; y < height; y++)
                 {
                     // Promote some floor tiles to special
-                    if (_map[x, y] == 1 && Random.value < fireTileChance)
+                    if (_map[x, y] == 1 && Random.value < waterTileChance)
                     {
-                        _map[x, y] = 2;
+                        _map[x, y] = 4;
                     }
                 }
             }
@@ -159,6 +161,9 @@ namespace ThisPCG
                         case 3:
                             // Spawn exit
                             Instantiate(exitPrefab, new Vector3(x, 0, y), Quaternion.identity, transform);
+                            break;
+                        case 4:
+                            Instantiate(waterTilePrefab, new Vector3(x, 0, y), Quaternion.identity, transform);
                             break;
                         default:
                             // Fallback if map[x, y] is something unexpected

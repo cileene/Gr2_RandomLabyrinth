@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5466329173984533691}
   m_Layer: 0
   m_Name: FireTile
-  m_TagString: Untagged
+  m_TagString: Fire
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 122

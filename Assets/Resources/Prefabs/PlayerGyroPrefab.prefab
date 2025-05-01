@@ -316,6 +316,7 @@ GameObject:
   - component: {fileID: 8135426757167010138}
   - component: {fileID: 6333813269581243605}
   - component: {fileID: 2072775764528558826}
+  - component: {fileID: 181021540808348230}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Player
@@ -497,6 +498,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 3
+--- !u!114 &181021540808348230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7185154791976092526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d01079529bb8d4ab2a946ee921151f7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6782957779791619648
 PrefabInstance:
   m_ObjectHideFlags: 0
