@@ -31,12 +31,15 @@ namespace Player
 
         private void FixedUpdate()
         {
+            //Debug.Log(Accelerometer.current.acceleration.ReadValue());
             // New Input System only
             bool isTouching = Touchscreen.current != null &&
                               Touchscreen.current.primaryTouch.press.isPressed;
 
             if (isTouching)
             {
+                InputSystem.EnableDevice(Touchscreen.current);
+                //Debug.Log("Touching");
                 // Drag mode
                 _rb.linearVelocity = Vector3.zero;
                 _rb.MovePosition(_rb.position + _currentDirection * (moveSpeed * Time.fixedDeltaTime));
@@ -51,6 +54,7 @@ namespace Player
             }
             else if (Accelerometer.current != null)
             {
+                InputSystem.EnableDevice(Accelerometer.current);
                 dir = Accelerometer.current.acceleration.ReadValue();
                 if (isFlat)
                     dir = new Vector3(dir.x, 0f, dir.y);
@@ -64,6 +68,7 @@ namespace Player
         }
         public void OnMove(InputValue value)
         {
+            //Debug.Log("OnMove");
             Vector2 input = value.Get<Vector2>();
             _currentDirection = new Vector3(input.x, 0f, input.y);
         }

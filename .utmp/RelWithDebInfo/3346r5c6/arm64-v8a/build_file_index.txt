@@ -1,0 +1,2 @@
+/Users/nickjerlung/UNITY/PROJECTS/AAU/Gr2_RandomLabyrinth/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/src/main/cpp/CMakeLists.txt
+/Users/nickjerlung/UNITY/PROJECTS/AAU/Gr2_RandomLabyrinth/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/src/main/cpp/GameActivity/CMakeLists.txt

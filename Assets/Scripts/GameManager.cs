@@ -62,7 +62,6 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         if (currentState is GameState.Phase1 or GameState.Phase2) _currentRunTime += Time.deltaTime;
-        
     }
 
     public void StartGame()
@@ -70,6 +69,8 @@ public class GameManager : MonoBehaviour
         _currentRunTime = 0f;
         currentState = GameState.Phase1;
         SceneManager.LoadSceneAsync("Labyrinth");
+        SoundManager.Instance.PlayMusic(SoundManager.Instance.gameMusicClip);
+        Unity.Services.Analytics.AnalyticsService.Instance.RecordEvent("startGame");
         LoadRunTimeFromJson();
     }
 
@@ -105,6 +106,8 @@ public class GameManager : MonoBehaviour
         LoadRunTimeFromJson();
 
         SceneManager.LoadSceneAsync("WinScene");
+        
+        Unity.Services.Analytics.AnalyticsService.Instance.RecordEvent("winLevel");
     }
 
     public void LoseGame()
@@ -119,6 +122,7 @@ public class GameManager : MonoBehaviour
         LoadRunTimeFromJson();
 
         SceneManager.LoadSceneAsync("LoseScene");
+        Unity.Services.Analytics.AnalyticsService.Instance.RecordEvent("loseGame");
     }
     public void SaveRunTimeToJson()
     {
