@@ -5,19 +5,24 @@ namespace TurtleTileIINT
 {
     public class TurtleController : MonoBehaviour 
     {
-        public UnityEvent<string> OnTileEntered;
+        public UnityEvent<string> onTileEntered;
 
-        public IMovementStrategy currentStrategy;
+        public IMovementStrategy CurrentStrategy;
+
+        private void Update()
+        {
+            CurrentStrategy?.Move(this);
+        }
 
         public void SetStrategy(IMovementStrategy strategy, string tileType) 
         {
-            currentStrategy = strategy;
-            OnTileEntered?.Invoke(tileType);
+            CurrentStrategy = strategy;
+            onTileEntered?.Invoke(tileType);
         }
 
         public void MoveWithSpeed(float speed) 
         {
-            transform.Translate(Vector3.forward * speed * Time.deltaTime);
+            transform.Translate(Vector3.forward * (speed * Time.deltaTime));
         }
 
         public void EnableSmoke() 

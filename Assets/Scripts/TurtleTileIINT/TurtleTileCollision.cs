@@ -4,27 +4,27 @@ namespace TurtleTileIINT
 {
     public class TurtleTileCollision : MonoBehaviour 
     {
-        private TurtleController turtleController;
+        private TurtleController _turtleController;
 
         private void Start() 
         {
-            turtleController = GetComponent<TurtleController>();
+            _turtleController = GetComponent<TurtleController>();
         }
 
         private void OnTriggerEnter(Collider other) 
         {
             switch (other.tag) {
                 case "Grass":
-                    turtleController.SetStrategy(new GrassMovement(), "Grass");
+                    _turtleController.SetStrategy(new GrassMovement(), "Grass");
                     break;
                 case "Sand":
-                    turtleController.SetStrategy(new SandMovement(), "Sand");
+                    _turtleController.SetStrategy(new SandMovement(), "Sand");
                     break;
                 case "Water":
-                    turtleController.SetStrategy(new WaterMovement(), "Water");
+                    _turtleController.SetStrategy(new WaterMovement(), "Water");
                     break;
                 case "Fire":
-                    turtleController.SetStrategy(new FireMovement(), "Fire");
+                    _turtleController.SetStrategy(new FireMovement(), "Fire");
                     break;
             }
         }
