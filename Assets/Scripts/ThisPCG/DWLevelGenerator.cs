@@ -20,6 +20,7 @@ namespace ThisPCG
         [SerializeField] private GameObject fireTilePrefab;
         [SerializeField] private GameObject playerPrefab;
         [SerializeField] private GameObject exitPrefab;
+        [SerializeField] private GameObject wallRemoverPrefab;
 
         // --- Runtime data containers ---
         private int[,] _map;                           // 0 = wall, 1 = floor, 2 = fire floor, 3 = exit
@@ -128,6 +129,9 @@ namespace ThisPCG
             // Randomly select a floor tile to spawn the player
             var playerSpawn = floorTiles[Random.Range(0, floorTiles.Count)];
             Instantiate(playerPrefab, new Vector3(playerSpawn.x, 2, playerSpawn.y), Quaternion.identity);
+            
+            // Instantiate the wall remover prefab
+            Instantiate(wallRemoverPrefab, new Vector3(0, 0, 0), Quaternion.identity);
                 
         }
         

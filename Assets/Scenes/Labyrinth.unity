@@ -250,7 +250,6 @@ GameObject:
   m_Component:
   - component: {fileID: 770652267}
   - component: {fileID: 770652266}
-  - component: {fileID: 770652268}
   m_Layer: 0
   m_Name: PCG
   m_TagString: Untagged
@@ -275,12 +274,13 @@ MonoBehaviour:
   steps: 350
   walkerCount: 3
   changeDirChance: 0.2
-  fireTileChance: 0.1
+  fireTileChance: 0
   floorPrefab: {fileID: 5865752808958729063, guid: faeb1a58d56784a4a9d723c680af3d7b, type: 3}
   wallPrefab: {fileID: 5865752808958729063, guid: 7106480e1d8dd4e7d91411442ca36571, type: 3}
   fireTilePrefab: {fileID: 5865752808958729063, guid: d366a67562c304b75977032eef4e1ecf, type: 3}
   playerPrefab: {fileID: 5885569299119556449, guid: cfc6ad0af5ecf4494a34d0c755ca8f82, type: 3}
   exitPrefab: {fileID: 8090134331792286574, guid: 8526c8d652fbd498f9b880c3de340d56, type: 3}
+  wallRemoverPrefab: {fileID: 1085617850749457178, guid: 3da35bb321c714e52a22fe691aa7a8da, type: 3}
 --- !u!4 &770652267
 Transform:
   m_ObjectHideFlags: 0
@@ -296,18 +296,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &770652268
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 770652265}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a50cc37f1c92f4f4f8dae4abd864b929, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1016988015
 GameObject:
   m_ObjectHideFlags: 0
@@ -633,7 +621,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
-  currentLevel: 0
+  currentScore: 0
   highScore: 0
   lastRunTime: 0
 --- !u!4 &1841429264
