@@ -7,12 +7,12 @@ namespace ThisPCG
     public class DWLevelGenerator : MonoBehaviour
     {
         // ---------- Generator configuration ----------
-        [SerializeField] private int width = 50;
-        [SerializeField] private int height = 50;
-        [SerializeField] private int steps = 500;
-        [SerializeField] private int walkerCount = 3;
-        [SerializeField] private float changeDirChance = 0.2f;
-        [SerializeField] private float fireTileChance = 0.1f;
+        [SerializeField] private int width = 30;
+        [SerializeField] private int height = 30;
+        [SerializeField] private int steps = 63;
+        [SerializeField] private int walkerCount = 10;
+        [SerializeField] private float changeDirChance = 0.082f;
+        [SerializeField] private float fireTileChance = 0f;
 
         // ---------- Prefab references ----------
         [SerializeField] private GameObject floorPrefab;
