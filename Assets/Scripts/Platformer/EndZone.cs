@@ -7,6 +7,11 @@ public class EndZone : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             TimeTracker.Instance.StopTimer();
+
+            if (SoundManager.Instance.endZoneSound != null)
+            {
+                SoundManager.Instance.PlaySfx(SoundManager.Instance.endZoneSound);
+            }
         }
     }
 }

@@ -6,6 +6,9 @@ public class SoundManager : MonoBehaviour
 
     private AudioSource musicSource;
 
+    public AudioClip gameMusicClip;
+    public AudioClip endZoneSound;
+
     private void Awake()
     {
         if (Instance == null)
@@ -23,18 +26,10 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    public void PlaySfx(AudioClip clip, float volume = 1f)
-    {
-        var sfxSource = gameObject.AddComponent<AudioSource>();
-        sfxSource.clip = clip;
-        sfxSource.volume = volume;
-        sfxSource.Play();
-        Destroy(sfxSource, clip.length);
-    }
-
     public void PlayMusic(AudioClip clip, float volume = 0.5f)
     {
         if (musicSource.clip == clip) return;
+
         musicSource.clip = clip;
         musicSource.volume = volume;
         musicSource.Play();
@@ -44,19 +39,13 @@ public class SoundManager : MonoBehaviour
     {
         musicSource.Stop();
     }
+
+    public void PlaySfx(AudioClip clip, float volume = 1f)
+    {
+        var sfxSource = gameObject.AddComponent<AudioSource>();
+        sfxSource.clip = clip;
+        sfxSource.volume = volume;
+        sfxSource.Play();
+        Destroy(sfxSource, clip.length);
+    }
 }
-
-
-// // Music in menu
-//SoundManager.Instance.PlayMusic(menuMusicClip);
-
-// game music
-//SoundManager.Instance.PlayMusic(gameMusicClip);
-
-// stop music
-//SoundManager.Instance.StopMusic();
-
-// sfx examples 
-//SoundManager.Instance.PlaySfx(iceSoundClip);
-//SoundManager.Instance.PlaySfx(fireSoundClip, 0.8f);
-//SoundManager.Instance.PlaySfx(fallSoundClip); 

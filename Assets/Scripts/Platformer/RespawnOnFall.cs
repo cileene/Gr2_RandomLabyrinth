@@ -3,6 +3,7 @@
 public class RespawnOnFall : MonoBehaviour
 {
     public Transform spawnPoint;
+    public AudioClip gameMusicClip;
 
     void Start()
     {
@@ -27,6 +28,7 @@ public class RespawnOnFall : MonoBehaviour
         transform.position = spawnPoint.position;
 
         TimeTracker.Instance.StartTimer();
+        SoundManager.Instance.PlayMusic(gameMusicClip);
 
     }
 
