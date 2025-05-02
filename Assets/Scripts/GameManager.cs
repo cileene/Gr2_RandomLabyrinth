@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Unity.Services.Analytics;
 using Random = UnityEngine.Random;
 
 [System.Serializable]
@@ -73,7 +74,7 @@ public class GameManager : MonoBehaviour
         currentState = GameState.Phase1;
         SceneManager.LoadSceneAsync("Labyrinth");
         SoundManager.Instance.PlayMusic(SoundManager.Instance.gameMusicClip);
-        Unity.Services.Analytics.AnalyticsService.Instance.RecordEvent("startGame");
+        AnalyticsService.Instance.RecordEvent("startGame");
         //LoadRunTimeFromJson();
     }
 
@@ -111,10 +112,13 @@ public class GameManager : MonoBehaviour
         if (fastestRunTime == 0 || _currentRunTime < fastestRunTime) fastestRunTime = _currentRunTime;
         
         SaveRunTimeToJson();
-
+        UGSSnitch();
+        
+        AnalyticsService.Instance.Flush();
+        
         SceneManager.LoadSceneAsync("WinScene");
         
-        Unity.Services.Analytics.AnalyticsService.Instance.RecordEvent("winLevel");
+        AnalyticsService.Instance.RecordEvent("winLevel");
     }
 
     public void LoseGame()
@@ -128,7 +132,7 @@ public class GameManager : MonoBehaviour
         //LoadRunTimeFromJson();
 
         SceneManager.LoadSceneAsync("LoseScene");
-        Unity.Services.Analytics.AnalyticsService.Instance.RecordEvent("loseGame");
+        AnalyticsService.Instance.RecordEvent("loseGame");
     }
     public void SaveRunTimeToJson()
     {
@@ -156,4 +160,24 @@ public class GameManager : MonoBehaviour
         fastestRunTime = data.fastestRunTime;
         Debug.Log("Loaded run time: " + fastestRunTime);
     }
+    
+    private void UGSSnitch()
+    {
+        RunTime runTime = new RunTime
+        {
+            RunTimeValue = lastRunTime
+        };
+        AnalyticsService.Instance.RecordEvent(runTime);
+    }
+}
+
+
+// Unity Analytics event class
+public class RunTime : Unity.Services.Analytics.Event
+{
+    public RunTime() : base("runTime")
+    {
+    }
+    
+    public float RunTimeValue { set { SetParameter("runTime", value); } }
 }
