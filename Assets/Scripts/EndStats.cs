@@ -12,7 +12,7 @@ public class EndStats : MonoBehaviour // display stats at the end of the game
         var gm = GameManager.Instance;
 
         if (runTime != null && gm != null && gm.lastRunTime > 0)
-            runTime.text = $"Run time: {gm.lastRunTime:F2}";
+            runTime.text = $"Last finished time: {gm.lastRunTime:F2}";
         else if (runTime != null && gm != null)
             runTime.text = $"You haven't finished yet!";
 

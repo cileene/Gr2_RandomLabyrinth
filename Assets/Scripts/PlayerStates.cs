@@ -24,6 +24,7 @@ public class PlayerStates : MonoBehaviour
             if (collision.gameObject.CompareTag("Water"))
             {
                 Debug.Log("Normal player picked up water.");
+                SoundManager.Instance.PlaySfx(SoundManager.Instance.waterDrip);
                 player.SetState(new WaterState());
                 player.wetParticles.SetActive(true); // Activate wet particles
             }
@@ -44,6 +45,7 @@ public class PlayerStates : MonoBehaviour
             if (other.gameObject.CompareTag("Fire"))
             {
                 Debug.Log("Water player extinguishes fire.");
+                SoundManager.Instance.PlaySfx(SoundManager.Instance.fireExtinguishing);
                 Destroy(other.gameObject.GetComponentInChildren<ParticleSystem>().gameObject); // Destroy fire
                 player.wetParticles.SetActive(false); // Activate wet particles
                 player.SetState(new NormalState()); // Optional: revert to normal
