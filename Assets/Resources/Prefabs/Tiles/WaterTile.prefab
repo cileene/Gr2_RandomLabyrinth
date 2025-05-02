@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1532554276034624704}
   - component: {fileID: 5628048052020906077}
   - component: {fileID: 5130378548526946945}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Water
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -120,7 +120,7 @@ GameObject:
   - component: {fileID: 3225119790968351872}
   - component: {fileID: 189765853902075447}
   - component: {fileID: 5466329173984533691}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: WaterTile
   m_TagString: Water
   m_Icon: {fileID: 0}

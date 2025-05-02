@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8797111046942923171}
   - component: {fileID: 4219317626670159773}
   - component: {fileID: 1915280520340937740}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4844,7 +4844,7 @@ GameObject:
   - component: {fileID: 3387086017348047532}
   - component: {fileID: 6364047530145713013}
   - component: {fileID: 7633427056251892732}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: ExitPrefab
   m_TagString: Exit
   m_Icon: {fileID: 0}

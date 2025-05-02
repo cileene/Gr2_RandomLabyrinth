@@ -28,6 +28,23 @@ namespace Player
         {
             _rb = GetComponent<Rigidbody>(); // Get the Rigidbody component
         }
+        private bool isGrounded = false;
+
+        private void OnCollisionStay(Collision collision)
+        {
+            if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+            {
+                isGrounded = true;
+            }
+        }
+
+        private void OnCollisionExit(Collision collision)
+        {
+            if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+            {
+                isGrounded = false;
+            }
+        }
 
         private void FixedUpdate()
         {
@@ -36,7 +53,7 @@ namespace Player
             bool isTouching = Touchscreen.current != null &&
                               Touchscreen.current.primaryTouch.press.isPressed;
 
-            if (isTouching)
+            if (isTouching && isGrounded)
             {
                 InputSystem.EnableDevice(Touchscreen.current);
                 //Debug.Log("Touching");
