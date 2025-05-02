@@ -748,9 +748,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 863ebdd6cdcb4f9f849574854904aecf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  runTime: {fileID: 1445624390}
-  score: {fileID: 0}
-  highScore: {fileID: 0}
+  runTime: {fileID: 0}
+  highScore: {fileID: 1445624390}
 --- !u!114 &1445624390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -771,7 +770,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Last finish time:
+  m_text: 'Fastest Run:
 
 '
   m_isRightToLeft: 0
