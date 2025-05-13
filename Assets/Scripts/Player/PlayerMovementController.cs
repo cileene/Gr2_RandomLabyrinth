@@ -81,7 +81,6 @@ namespace Player
         }
         public void OnMove(InputValue value)
         {
-            //Debug.Log("OnMove");
             Vector2 input = value.Get<Vector2>();
             _currentDirection = new Vector3(input.x, 0f, input.y);
         }
