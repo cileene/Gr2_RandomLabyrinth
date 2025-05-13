@@ -6,7 +6,7 @@ public class LabyrinthExit : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
 
-        Debug.Log("Player has exited the labyrinth!");
+        Debug.Log("Player has reached the labyrinths exit!");
         GameManager.Instance.ReachedExit();
     }
 }

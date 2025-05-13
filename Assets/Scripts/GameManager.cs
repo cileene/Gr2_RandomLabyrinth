@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
     // ------------------ METHODS ------------------
     private void Awake() 
     {
-        if (Instance == null) // singelton pattern to ensure only one instance of GameManager exists
+        if (Instance == null) // singleton pattern to ensure only one instance of GameManager exists
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);

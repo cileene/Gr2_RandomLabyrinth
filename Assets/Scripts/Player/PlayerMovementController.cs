@@ -11,7 +11,6 @@ namespace Player
         private Vector3 _currentDirection = Vector3.zero;  // To store the current tilt direction
         public float moveSpeed = 1f;
         [SerializeField] private float forceMultiplier = 10f;
-        public bool isFlat = true;
 
         private void OnEnable()
         {
@@ -48,7 +47,6 @@ namespace Player
 
         private void FixedUpdate()
         {
-            //Debug.Log(Accelerometer.current.acceleration.ReadValue());
             // New Input System only
             bool isTouching = Touchscreen.current != null &&
                               Touchscreen.current.primaryTouch.press.isPressed;
@@ -56,8 +54,7 @@ namespace Player
             if (isTouching && isGrounded)
             {
                 InputSystem.EnableDevice(Touchscreen.current);
-                //Debug.Log("Touching");
-                // Drag mode
+             
                 _rb.linearVelocity = Vector3.zero;
                 _rb.MovePosition(_rb.position + _currentDirection * (moveSpeed * Time.fixedDeltaTime));
                 return;
@@ -73,8 +70,7 @@ namespace Player
             {
                 InputSystem.EnableDevice(Accelerometer.current);
                 dir = Accelerometer.current.acceleration.ReadValue();
-                if (isFlat)
-                    dir = new Vector3(dir.x, 0f, dir.y);
+                dir = new Vector3(dir.x, 0f, dir.y);
             }
 
             dir = Vector3.ClampMagnitude(dir, 1f);
