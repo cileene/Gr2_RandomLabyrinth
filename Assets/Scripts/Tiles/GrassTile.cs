@@ -6,7 +6,7 @@ namespace Tiles
     {
         protected override PhysicsMaterial CreateMaterial()
         {
-            var mat = new PhysicsMaterial("Grass")
+            var material = new PhysicsMaterial("Grass")
             {
                 dynamicFriction = 1f,
                 staticFriction = 1f,
@@ -14,7 +14,7 @@ namespace Tiles
                 frictionCombine = PhysicsMaterialCombine.Minimum,
                 bounceCombine = PhysicsMaterialCombine.Minimum
             };
-            return mat;
+            return material;
         }
     }
 }
