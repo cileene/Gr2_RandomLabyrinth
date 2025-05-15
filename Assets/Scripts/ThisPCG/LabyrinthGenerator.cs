@@ -6,6 +6,7 @@ namespace ThisPCG
     
     // This class generates a level using a random walker / drunkards walk algorithm. 
     // Beware, baking metaphors incoming.
+    
     public class LabyrinthGenerator : MonoBehaviour
     {
         // --- The knobs for the PCG oven ---
@@ -48,12 +49,11 @@ namespace ThisPCG
                                     // (9.) Spawn the wall remover prefab to the scene
             Instantiate(wallRemoverPrefab, new Vector3(0, 0, 0), Quaternion.identity);
             
-            SaveMapToJson();        // (10.)
+            SaveMapToJson();        // (10.) Cakes done now cram it into the fridge and forget about it
         }
 
-        private void InitializeMap()
+        private void InitializeMap() // 1. Initialize the map array
         {
-            // Initialize the map array
             _map = new int[width, height];
             
             // Clear the map (set all cells to 0 = wall)
@@ -64,9 +64,8 @@ namespace ThisPCG
             }
         }
         
-        private void InitializeWalkers()
+        private void InitializeWalkers() // 2. Create walkers at random positions with random directions
         {
-            // Create walkers at random positions with random directions
             _walkerPositions = new Vector2Int[walkerCount];
             _walkerDirections = new Vector2Int[walkerCount];
 
@@ -77,7 +76,7 @@ namespace ThisPCG
             }
         }
         
-        private void CarveFloor()
+        private void CarveFloor() // 3. Move the walkers around the map, carving out a path
         {
             for (int i = 0; i < steps; i++)
             {
@@ -95,7 +94,7 @@ namespace ThisPCG
             }
         }
         
-        private void PromoteSpecialTiles() // Promote some floor tiles to special tiles
+        private void PromoteSpecialTiles() // 4. Promote some floor tiles to special tiles
         {
             for (int x = 0; x < width; x++)
             {
@@ -108,7 +107,7 @@ namespace ThisPCG
             }
         }
         
-        private void ListFloorTiles() // Create a list of all floor tiles (1) in the map
+        private void ListFloorTiles() // 5. Create a list of all floor tiles (1) in the map
         {
             _floorTiles = new List<Vector2Int>();
             for (int x = 0; x < width; x++)
@@ -120,13 +119,14 @@ namespace ThisPCG
             }
         }
         
-        private void MarkExit() // Randomly select a floor tile to mark as the exit
+        private void MarkExit() // 6. Randomly select a floor tile to mark as the exit
         {
             Vector2Int exitSpawn = _floorTiles[Random.Range(0, _floorTiles.Count)];
             _map[exitSpawn.x, exitSpawn.y] = 3;
+            Debug.Log($"Exit spawned at: {exitSpawn}");
         }
         
-        private void RenderLevel() // Iterate over each cell and instantiate the correct prefab
+        private void RenderLevel() // 7. Iterate over each cell and instantiate the correct prefab
         {
             for (int x = 0; x < width; x++)
             {
@@ -163,10 +163,11 @@ namespace ThisPCG
             }
         }
         
-        private void SpawnPlayer() // Randomly select a floor tile to spawn the player
+        private void SpawnPlayer() // 8. Randomly select a floor tile to spawn the player
         {
             Vector2Int playerSpawn = _floorTiles[Random.Range(0, _floorTiles.Count)];
             Instantiate(playerPrefab, new Vector3(playerSpawn.x, 2, playerSpawn.y), Quaternion.identity);
+            Debug.Log($"Player spawned at: {playerSpawn}");
         }
         
         private Vector2Int RandomDirection() // Helper method to get a random direction
@@ -181,13 +182,12 @@ namespace ThisPCG
         }
       
         
-        // And here is a bunch of code to save the map data to a JSON file
+        // And here is a bunch of logic to save the map data to a JSON file
         // We never use it, but it's here for future me
         private string _dataPath; // Path to save the JSON file
         
-        private void Awake()
+        private void Awake() // Set the location for the JSON file
         {
-            // Set the location for the JSON file
             _dataPath = Application.persistentDataPath + "/Player_Data/";
             Debug.Log(_dataPath);
         }
@@ -220,9 +220,8 @@ namespace ThisPCG
         
         // TODO: Add a method to load the map from the JSON file
         
-        // Class to hold the map data for JSON serialization
         [System.Serializable]
-        private class MapData
+        private class MapData // Class to hold the map data for JSON serialization
         {
             public int width;
             public int height;
