@@ -5,10 +5,10 @@ namespace ThisPCG
     using System.IO;
     
     // This class generates a level using a random walker / drunkards walk algorithm. 
-    // Beware, baking metaphors ahead.
-    public class DWLevelGenerator : MonoBehaviour
+    // Beware, baking metaphors incoming.
+    public class LabyrinthGenerator : MonoBehaviour
     {
-        // --- The knobs and levers for the PCG oven ---
+        // --- The knobs for the PCG oven ---
         [SerializeField] private int width = 35;
         [SerializeField] private int height = 35;
         [SerializeField] private int steps = 63;
@@ -30,28 +30,32 @@ namespace ThisPCG
         private int[,] _map;                           // 0 = wall, 1 = floor, 2 = fire, 3 = exit, 4 = water
         private Vector2Int[] _walkerPositions;         // Current grid position of each walker
         private Vector2Int[] _walkerDirections;        // Direction each walker is moving
+        private List<Vector2Int> _floorTiles;          // List of all floor tiles (1)
         
     
-        // And now the 6 (7, maybe 8) steps to make/bake a PCG labyrinth:
+        // And now the 8 (9, maybe 10) steps to make/bake a PCG labyrinth:
         private void Start()
         {
             InitializeMap();        // 1.
             InitializeWalkers();    // 2.
             CarveFloor();           // 3.
             PromoteSpecialTiles();  // 4.
-            RenderLevel();          // 5.
-            SpawnPlayerAndExit();   // 6.
+            ListFloorTiles();       // 5.
+            MarkExit();             // 6.
+            RenderLevel();          // 7.
+            SpawnPlayer();          // 8.
             
-                                    // (7.) Spawn the wall remover prefab to the scene
+                                    // (9.) Spawn the wall remover prefab to the scene
             Instantiate(wallRemoverPrefab, new Vector3(0, 0, 0), Quaternion.identity);
             
-            SaveMapToJson();        // (8.)
+            SaveMapToJson();        // (10.)
         }
 
         private void InitializeMap()
         {
             // Initialize the map array
             _map = new int[width, height];
+            
             // Clear the map (set all cells to 0 = wall)
             for (int x = 0; x < width; x++)
             {
@@ -73,77 +77,57 @@ namespace ThisPCG
             }
         }
         
-        // Do the handling of the player and exit spawn diverge from the rest of the logic? Yes, yes it does.
-        // But it worked and we ran out of time. 
-        private void SpawnPlayerAndExit()
-        {
-            // Go through the _map array and find all floor tiles (1)
-            List<Vector2Int> floorTiles = new List<Vector2Int>();
-            for (int x = 0; x < width; x++)
-            {
-                for (int y = 0; y < height; y++)
-                {
-                    if (_map[x, y] == 1)
-                        floorTiles.Add(new Vector2Int(x, y));
-                }
-            }
-            
-            // Randomly select a floor tile to mark as the exit
-            Vector2Int exitSpawn = floorTiles[Random.Range(0, floorTiles.Count)];
-            _map[exitSpawn.x, exitSpawn.y] = 3;
-            
-            // Randomly select a floor tile to spawn the player
-            Vector2Int playerSpawn = floorTiles[Random.Range(0, floorTiles.Count)];
-            Instantiate(playerPrefab, new Vector3(playerSpawn.x, 2, playerSpawn.y), Quaternion.identity);
-        }
-
-        private void PromoteSpecialTiles()
-        {
-            for (int x = 0; x < width; x++)
-            {
-                for (int y = 0; y < height; y++)
-                {
-                    // Promote some floor tiles to special tiles
-                    if (_map[x, y] == 1 && Random.value < fireTileChance)
-                    {
-                        _map[x, y] = 2;
-                    }
-                    else if (_map[x, y] == 1 && Random.value < waterTileChance)
-                    {
-                        _map[x, y] = 4;
-                    }
-                }
-            }
-        }
-
         private void CarveFloor()
         {
             for (int i = 0; i < steps; i++)
             {
                 for (int w = 0; w < walkerCount; w++)
                 {
-                    // Carve floor at current walker position
-                    _map[_walkerPositions[w].x, _walkerPositions[w].y] = 1;
+                    if (Random.value < changeDirChance) _walkerDirections[w] = RandomDirection();
 
-                    // Randomly change walker direction
-                    if (Random.value < changeDirChance)
-                    {
-                        _walkerDirections[w] = RandomDirection();
-                    }
-
-                    // Move the walker in the new direction
                     _walkerPositions[w] += _walkerDirections[w];
-                    
-                    // Keep walker inside xy grid bounds
+
                     _walkerPositions[w].x = Mathf.Clamp(_walkerPositions[w].x, 1, width - 2);
                     _walkerPositions[w].y = Mathf.Clamp(_walkerPositions[w].y, 1, height - 2);
+
+                    _map[_walkerPositions[w].x, _walkerPositions[w].y] = 1;
                 }
             }
         }
-
-        private void RenderLevel()
+        
+        private void PromoteSpecialTiles() // Promote some floor tiles to special tiles
         {
-            // Iterate over each cell and instantiate the correct prefab
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    if (_map[x, y] != 1) continue; // If not floor, move on
+                    if (Random.value < fireTileChance) _map[x, y] = 2;
+                    else if (Random.value < waterTileChance) _map[x, y] = 4;
+                }
+            }
+        }
+        
+        private void ListFloorTiles() // Create a list of all floor tiles (1) in the map
+        {
+            _floorTiles = new List<Vector2Int>();
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    if (_map[x, y] == 1) _floorTiles.Add(new Vector2Int(x, y));
+                }
+            }
+        }
+        
+        private void MarkExit() // Randomly select a floor tile to mark as the exit
+        {
+            Vector2Int exitSpawn = _floorTiles[Random.Range(0, _floorTiles.Count)];
+            _map[exitSpawn.x, exitSpawn.y] = 3;
+        }
+        
+        private void RenderLevel() // Iterate over each cell and instantiate the correct prefab
+        {
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)
@@ -159,19 +143,19 @@ namespace ThisPCG
                             Instantiate(floorPrefab, new Vector3(x, 0, y), Quaternion.identity, transform);
                             break;
                         case 2:
-                            // Spawn fire floor tile
+                            // Spawn fire 
                             Instantiate(fireTilePrefab, new Vector3(x, 0, y), Quaternion.identity, transform);
                             break;
                         case 3:
-                            // Spawn exit hole
+                            // Spawn exit
                             Instantiate(exitPrefab, new Vector3(x, 0, y), Quaternion.identity, transform);
                             break;
                         case 4:
-                            // Spawn water tile
+                            // Spawn water 
                             Instantiate(waterTilePrefab, new Vector3(x, 0, y), Quaternion.identity, transform);
                             break;
                         default:
-                            // Fallback if map[x, y] is something unexpected
+                            // Fallback if there's an unexpected value in _map
                             Debug.LogWarning($"Unexpected value in map at {x}, {y}");
                             break;
                     }
@@ -179,8 +163,13 @@ namespace ThisPCG
             }
         }
         
-        // Helper method to get a random direction
-        private Vector2Int RandomDirection()
+        private void SpawnPlayer() // Randomly select a floor tile to spawn the player
+        {
+            Vector2Int playerSpawn = _floorTiles[Random.Range(0, _floorTiles.Count)];
+            Instantiate(playerPrefab, new Vector3(playerSpawn.x, 2, playerSpawn.y), Quaternion.identity);
+        }
+        
+        private Vector2Int RandomDirection() // Helper method to get a random direction
         {
             return Random.Range(0, 4) switch
             {
@@ -203,8 +192,7 @@ namespace ThisPCG
             Debug.Log(_dataPath);
         }
         
-        // Save the map data to a JSON file (and forget about it)
-        private void SaveMapToJson()
+        private void SaveMapToJson() // Save the map data to a JSON file (and promptly forget about it)
         {
             Directory.CreateDirectory(_dataPath);
             Debug.Log("New directory created!");
