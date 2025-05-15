@@ -54,14 +54,11 @@ namespace ThisPCG
 
         private void InitializeMap() // 1. Initialize the map array
         {
+            // Create a new 2D array for the map (think X/Y coordinate system)
             _map = new int[width, height];
             
             // Clear the map (set all cells to 0 = wall)
-            for (int x = 0; x < width; x++)
-            {
-                for (int y = 0; y < height; y++)
-                    _map[x, y] = 0;
-            }
+            System.Array.Clear(_map, 0, _map.Length);
         }
         
         private void InitializeWalkers() // 2. Create walkers at random positions with random directions
@@ -86,6 +83,7 @@ namespace ThisPCG
 
                     _walkerPositions[w] += _walkerDirections[w];
 
+                    // Clamp the walker positions to the map boundaries
                     _walkerPositions[w].x = Mathf.Clamp(_walkerPositions[w].x, 1, width - 2);
                     _walkerPositions[w].y = Mathf.Clamp(_walkerPositions[w].y, 1, height - 2);
 
