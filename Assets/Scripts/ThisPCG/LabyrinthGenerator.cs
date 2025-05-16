@@ -68,7 +68,7 @@ namespace ThisPCG
 
             for (int i = 0; i < walkerCount; i++)
             {
-                _walkerPositions[i] = new Vector2Int(Random.Range(0, width), Random.Range(0, height));
+                _walkerPositions[i] = new Vector2Int(Random.Range(0, width - 1), Random.Range(0, height - 1));
                 _walkerDirections[i] = RandomDirection();
             }
         }
