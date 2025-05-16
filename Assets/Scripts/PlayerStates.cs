@@ -4,8 +4,8 @@ public class PlayerStates : MonoBehaviour
 {
     public interface IPlayerStates // Interface for player states
     {
-        void HandleCollision(PlayerStateManager player, Collision collision);
-        void HandleTrigger(PlayerStateManager player, Collider other);
+        public void HandleCollision(PlayerStateManager player, Collision collision);
+        public void HandleTrigger(PlayerStateManager player, Collider other);
     }
         
     public class NormalState : IPlayerStates // Normal state of the player

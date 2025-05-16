@@ -8,8 +8,8 @@ namespace Tiles
         {
             var material = new PhysicsMaterial("Wood")
             {
-                dynamicFriction = 0.6f,
-                staticFriction = 0.5f,
+                dynamicFriction = 1f,
+                staticFriction = 1f,
                 bounciness = 0f,
                 frictionCombine = PhysicsMaterialCombine.Multiply,
                 bounceCombine = PhysicsMaterialCombine.Average

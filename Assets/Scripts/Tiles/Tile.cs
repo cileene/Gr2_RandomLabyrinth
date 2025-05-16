@@ -4,20 +4,20 @@ namespace Tiles
 {
     public abstract class Tile : MonoBehaviour
     {
-        private PhysicsMaterial material;
+        private PhysicsMaterial Material;
 
-        protected void Awake()
+        public void Awake()
         {
-            material = CreateMaterial();  // Child defines *how* to create the material
+            Material = CreateMaterial();  // Child defines *how* to create the material
             ApplyMaterial();              // Shared logic: assigns it to the Collider
         }
 
         private void ApplyMaterial()
         {
             Collider collider = GetComponent<Collider>();
-            if (collider != null && material != null)
+            if (collider != null && Material != null)
             {
-                collider.material = material;  // Applies the material to the object
+                collider.material = Material;  // Applies the material to the object
             }
         }
         

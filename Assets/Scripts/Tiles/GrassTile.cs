@@ -8,8 +8,8 @@ namespace Tiles
         {
             var material = new PhysicsMaterial("Grass")
             {
-                dynamicFriction = 1f,
-                staticFriction = 1f,
+                dynamicFriction = 100f,
+                staticFriction = 100f,
                 bounciness = 0f,
                 frictionCombine = PhysicsMaterialCombine.Minimum,
                 bounceCombine = PhysicsMaterialCombine.Minimum
