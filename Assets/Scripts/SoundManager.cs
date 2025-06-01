@@ -25,7 +25,7 @@ public class SoundManager : MonoBehaviour
 
     private void OnGameStarted()
     {
-        PlayMusic(gameMusicClip); // Replace this with your actual method
+        PlayMusic(gameMusicClip); 
     }
     private void Awake()
     {
