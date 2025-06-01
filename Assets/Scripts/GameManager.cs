@@ -13,6 +13,7 @@ public class RunTimeData
 [Serializable]
 public class GameManager : MonoBehaviour
 {
+    public static event Action GameStarted;
     public static GameManager Instance { get; private set; }
     private string _dataPath; // Path to save the JSON file
 
@@ -73,9 +74,9 @@ public class GameManager : MonoBehaviour
         _currentRunTime = 0f;
         currentState = GameState.Phase1;
         SceneManager.LoadSceneAsync("Labyrinth");
-        SoundManager.Instance.PlayMusic(SoundManager.Instance.gameMusicClip);
         AnalyticsService.Instance.RecordEvent("startGame");
-        //LoadRunTimeFromJson();
+
+        GameStarted?.Invoke();
     }
 
     public void ReachedExit()

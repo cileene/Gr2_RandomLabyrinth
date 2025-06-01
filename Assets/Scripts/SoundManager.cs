@@ -13,6 +13,20 @@ public class SoundManager : MonoBehaviour
     public AudioClip gameOver;
     public AudioClip waterDrip;
 
+    private void OnEnable()
+    {
+        GameManager.GameStarted += OnGameStarted;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.GameStarted -= OnGameStarted;
+    }
+
+    private void OnGameStarted()
+    {
+        PlayMusic(gameMusicClip); // Replace this with your actual method
+    }
     private void Awake()
     {
         if (Instance == null)
