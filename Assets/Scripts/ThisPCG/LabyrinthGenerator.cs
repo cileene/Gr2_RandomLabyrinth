@@ -21,7 +21,7 @@ namespace ThisPCG
         // --- The ingredients for the PCG oven ---
         [SerializeField] private GameObject floorPrefab;
         [SerializeField] private GameObject wallPrefab;
-        [SerializeField] private GameObject fireTilePrefab;
+        [SerializeField] private GameObject fireTilePrefab; 
         [SerializeField] private GameObject waterTilePrefab;
         [SerializeField] private GameObject playerPrefab;
         [SerializeField] private GameObject exitPrefab;
@@ -134,7 +134,7 @@ namespace ThisPCG
                     {
                         case 0:
                             // Spawn wall
-                            Instantiate(wallPrefab, new Vector3(x, 0.5f, y), Quaternion.identity, transform);
+                            Instantiate(wallPrefab, new Vector3(x, 0.5f, y), Quaternion.identity, transform); // no rotation
                             break;
                         case 1:
                             // Spawn floor

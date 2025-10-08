@@ -17,7 +17,6 @@ public class PlayerStates : MonoBehaviour
                 Debug.Log("Normal player hit fire and dies.");
                 GameManager.Instance.LoseGame(); // Call the GameManager to restart the game
             }
-            
         }
         public void HandleCollision(PlayerStateManager player, Collision collision) 
         {

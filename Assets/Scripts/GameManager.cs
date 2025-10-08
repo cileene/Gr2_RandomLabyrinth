@@ -6,7 +6,7 @@ using Unity.Services.Analytics;
 using Random = UnityEngine.Random;
 
 [System.Serializable]
-public class RunTimeData
+public class RunTimeData // could be a struct
 {
     public float fastestRunTime;
 }
